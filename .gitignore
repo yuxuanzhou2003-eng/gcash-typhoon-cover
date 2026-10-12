@@ -1,0 +1,16 @@
+# Chinese working drafts remain local.
+*.zh-CN.md
+
+# Local course materials and historical proposals.
+/climada_memo/
+/BMF5342_Group_Final_Project.pdf
+
+# Local credentials, environments and generated files.
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+node_modules/
+.DS_Store
+Thumbs.db
