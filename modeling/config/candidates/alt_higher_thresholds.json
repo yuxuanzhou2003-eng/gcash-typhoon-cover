@@ -1,0 +1,40 @@
+{
+  "rule_version": "climada-trigger-candidate-v0.1",
+  "rule_status": "experimental",
+  "wind_unit": "m/s",
+  "wind_metric": "sustained_10min_10m",
+  "threshold_boundary": "inclusive",
+  "coverage_window_rule": "event_overlaps_window",
+  "coverage_window_mode": "recurring_month_day",
+  "coverage_window_timezone_offset_hours": 8,
+  "outside_reach_treatment": "no_trigger",
+  "rounding": {
+    "unit_php": 1,
+    "mode": "half_up"
+  },
+  "_threshold_source": "Lower bound of PAGASA Modified TCWS wind ranges (km/h), effective 2022-03-23, converted to m/s by /3.6. PAGASA press release does not state the averaging period; 10-minute is per Role B, source pending.",
+  "_status_note": "Modeling hypothesis for Product review (BUSINESS_RULES s5). Not an approved policy term.",
+  "candidate_id": "climada-trigger-candidate-v0.1-alt_higher_thresholds",
+  "tiers": [
+    {
+      "tier": 1,
+      "threshold_mps": 24.7222,
+      "benefit_days": 14,
+      "_anchor": "PAGASA TCWS Signal 3 lower bound (89 km/h)"
+    },
+    {
+      "tier": 2,
+      "threshold_mps": 32.7778,
+      "benefit_days": 28,
+      "_anchor": "PAGASA TCWS Signal 4 lower bound (118 km/h)"
+    },
+    {
+      "tier": 3,
+      "threshold_mps": 51.3889,
+      "benefit_days": 42,
+      "_anchor": "PAGASA TCWS Signal 5 lower bound (185 km/h)"
+    }
+  ],
+  "per_event_cap_php": 50000,
+  "_rationale": "Pays only from storm-force winds (Signal 3). Fewer, larger-damage payouts; lower cost; more merchants disrupted at Signal 2 receive nothing (basis risk)."
+}

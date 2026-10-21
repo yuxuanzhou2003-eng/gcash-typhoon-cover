@@ -1,0 +1,9 @@
+# Map data and interaction
+
+`StormMap` uses Leaflet 1.9.4 and a bundled Natural Earth country-boundary GeoJSON layer rendered in a dark, low-noise style. The world geometry comes from GitHub's [`nvkelso/natural-earth-vector` `ne_110m_admin_0_countries`](https://github.com/nvkelso/natural-earth-vector/tree/master/110m_cultural) dataset; the Philippines (`PHL`) feature is replaced with the higher-resolution [`ne_10m_admin_0_countries`](https://github.com/nvkelso/natural-earth-vector/tree/master/10m_cultural) geometry. Visible attribution links to [Natural Earth](https://www.naturalearthdata.com/); keyed CARTO mode adds OpenStreetMap and CARTO attribution.
+
+By default the map reads `/maps/natural-earth.geojson` locally, so it does not depend on remote tiles or credentials. If `VITE_CARTO_API_KEY` is configured, the optional CARTO `dark_nolabels` layer requests `https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png` with the key appended as the `key` query parameter. Deployments should use their own CARTO key; see [CARTO's basemap documentation](https://www.carto.com/basemaps/). No shared Foresail credentials are used. No bulk download, offline prefetch or cache-busting is enabled. A failed basemap shows a retry prompt without removing merchant and storm layers.
+
+Merchant coordinates and risk statuses come from shared portfolio/run records. Track and center come from the displayed bulletin snapshot. Camera bounds use those coordinates; imported locations are not restricted to a fixed Philippines drawing. Selecting a merchant exposes its matching model result. The map does not fabricate wind contours or impact radii.
+
+The reference project Foresail also uses Leaflet. This prototype's default is the local Natural Earth vector basemap; CARTO's dark raster layer is an optional keyed integration as described in [CARTO's basemap documentation](https://www.carto.com/basemaps/).

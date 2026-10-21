@@ -1,4 +1,4 @@
-# GCash Merchant Typhoon Cover Platform Architecture and Processing Sequences
+# CLIMADA Platform Architecture and Processing Sequences
 
 Start here: [Project overview and team responsibilities](README.md).
 
@@ -378,7 +378,7 @@ The following interfaces are proposed and are not implemented services. All writ
 
 A workbench response binds run_id and as_of so that the map cannot show a new bulletin while amounts come from an older calculation. Load detailed evidence on demand. Resetting a replay creates a new replay_id and isolated ledger; it must not delete the previous audit history.
 
-Delivery order: first fix objects and model examples; then build frontend and backend with clearly labelled simulated results; integrate the Rai model; finally validate sequential storms, exception recovery and review. Describe historical replay results separately from production real-time capabilities.
+Delivery order: first fix objects and model examples; then build frontend and backend with clearly labelled simulated results; integrate the CLIMADA model; finally validate sequential storms, exception recovery and review. Describe historical replay results separately from production real-time capabilities.
 
 ## 13 Joint acceptance scenarios
 

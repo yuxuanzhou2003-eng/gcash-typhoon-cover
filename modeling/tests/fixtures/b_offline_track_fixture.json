@@ -1,0 +1,123 @@
+{
+ "_label": "SYNTHETIC TEST TRACK - not a real storm. Values are chosen only to exercise CLIMADA's wind-field code offline. Do not use as evidence about any typhoon.",
+ "as_of": "2026-10-21T00:00:00+00:00",
+ "exposure": [
+  {
+   "location_id": "FX-NEAR",
+   "latitude": 11.24,
+   "longitude": 125.0
+  },
+  {
+   "location_id": "FX-MID",
+   "latitude": 12.5,
+   "longitude": 124.0
+  },
+  {
+   "location_id": "FX-FAR",
+   "latitude": 7.1,
+   "longitude": 125.6
+  }
+ ],
+ "track_records": [
+  {
+   "event_id": "SYN_TEST_1",
+   "track_id": "SYN_TEST_1",
+   "member_index": 0,
+   "members_generated": 1,
+   "season_year": 2020,
+   "track_type": "synthetic_test",
+   "name": "SYN_TEST_1",
+   "observation_time": "2020-11-01T00:00:00+00:00",
+   "latitude": 10.5,
+   "longitude": 130.0,
+   "max_sustained_wind": 120,
+   "wind_unit": "kn",
+   "wind_averaging_minutes": 1,
+   "central_pressure_hpa": 930,
+   "basin": "WP",
+   "source": "synthetic_test_track (B offline fixture)",
+   "published_at": "2021-01-01T00:00:00+00:00",
+   "data_version": "b-fixture-1"
+  },
+  {
+   "event_id": "SYN_TEST_1",
+   "track_id": "SYN_TEST_1",
+   "member_index": 0,
+   "members_generated": 1,
+   "season_year": 2020,
+   "track_type": "synthetic_test",
+   "name": "SYN_TEST_1",
+   "observation_time": "2020-11-01T06:00:00+00:00",
+   "latitude": 10.8,
+   "longitude": 128.0,
+   "max_sustained_wind": 130,
+   "wind_unit": "kn",
+   "wind_averaging_minutes": 1,
+   "central_pressure_hpa": 920,
+   "basin": "WP",
+   "source": "synthetic_test_track (B offline fixture)",
+   "published_at": "2021-01-01T00:00:00+00:00",
+   "data_version": "b-fixture-1"
+  },
+  {
+   "event_id": "SYN_TEST_1",
+   "track_id": "SYN_TEST_1",
+   "member_index": 0,
+   "members_generated": 1,
+   "season_year": 2020,
+   "track_type": "synthetic_test",
+   "name": "SYN_TEST_1",
+   "observation_time": "2020-11-01T12:00:00+00:00",
+   "latitude": 11.0,
+   "longitude": 126.0,
+   "max_sustained_wind": 130,
+   "wind_unit": "kn",
+   "wind_averaging_minutes": 1,
+   "central_pressure_hpa": 920,
+   "basin": "WP",
+   "source": "synthetic_test_track (B offline fixture)",
+   "published_at": "2021-01-01T00:00:00+00:00",
+   "data_version": "b-fixture-1"
+  },
+  {
+   "event_id": "SYN_TEST_1",
+   "track_id": "SYN_TEST_1",
+   "member_index": 0,
+   "members_generated": 1,
+   "season_year": 2020,
+   "track_type": "synthetic_test",
+   "name": "SYN_TEST_1",
+   "observation_time": "2020-11-01T18:00:00+00:00",
+   "latitude": 11.2,
+   "longitude": 124.0,
+   "max_sustained_wind": 115,
+   "wind_unit": "kn",
+   "wind_averaging_minutes": 1,
+   "central_pressure_hpa": 935,
+   "basin": "WP",
+   "source": "synthetic_test_track (B offline fixture)",
+   "published_at": "2021-01-01T00:00:00+00:00",
+   "data_version": "b-fixture-1"
+  },
+  {
+   "event_id": "SYN_TEST_1",
+   "track_id": "SYN_TEST_1",
+   "member_index": 0,
+   "members_generated": 1,
+   "season_year": 2020,
+   "track_type": "synthetic_test",
+   "name": "SYN_TEST_1",
+   "observation_time": "2020-11-02T00:00:00+00:00",
+   "latitude": 11.4,
+   "longitude": 122.0,
+   "max_sustained_wind": 100,
+   "wind_unit": "kn",
+   "wind_averaging_minutes": 1,
+   "central_pressure_hpa": 950,
+   "basin": "WP",
+   "source": "synthetic_test_track (B offline fixture)",
+   "published_at": "2021-01-01T00:00:00+00:00",
+   "data_version": "b-fixture-1"
+  }
+ ]
+}

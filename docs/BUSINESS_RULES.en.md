@@ -1,8 +1,8 @@
-# GCash Merchant Typhoon Protection Product Rules Register — English Discussion Draft
+# CLIMADA Product Rules Register — English Discussion Draft
 
 Start here: [Project overview and team responsibilities](README.md).
 
-Version: v0.1. Date: 2026-10-12.
+Version: v0.2. Date: 2026-10-21.
 
 This register distinguishes the confirmed prototype scope, proposed product terms, engineering controls, and external requirements pending verification. Undetermined values must not be silently set as actual terms in the program; if the demonstration needs values, save them separately as explicitly labeled demo configuration.
 
@@ -57,3 +57,30 @@ The following materials are entry points for preliminary review; they do not mea
 First determine P01, P02, P03, P07, P09, and P10 to keep the modeling and payout rules consistent; then determine P04, P05, and P06; finally complete pricing loadings, reinsurance scenarios, and approval authorities.
 
 Record for each confirmation: rule number, explicit conditions, values and units, supporting link, confirmer, version, applicable start and end times, and boundary examples. Keep items whose regulatory applicability is unresolved as “pending verification”; do not use the “compliant” label.
+
+## 5. Role C Working Authority During the Prototype
+
+Role C does not need to wait for every commercial term to be finalized. Role C may design and compare candidate trigger and payout configurations, provided that each configuration is clearly labeled as a modeling hypothesis rather than an approved company rule. The output should help Product choose a rule; it must not imply that the candidate is already a policy term.
+
+Use explicit fields instead of the ambiguous phrase `coverage_amount`:
+
+| Field | Meaning | Owner during the prototype |
+|---|---|---|
+| `daily_collection_basis` | Eligible average daily settled collections calculated from the agreed observation window | A supplies the data definition; C may propose the calculation treatment |
+| `benefit_days` | Number of collection days represented by a trigger tier, such as 14, 28, or 42 days | C may test candidate values and alternatives |
+| `gross_benefit_basis` | `daily_collection_basis × benefit_days` before any contractual limit | C calculates |
+| `per_event_cap` | Maximum modeled benefit for one covered event | Product must ultimately approve; C may test candidate caps |
+| `modeled_payout_basis` | Candidate payout after applying the trigger rule and the configured model-side cap | C calculates; the backend independently checks final policy limits |
+
+For the first prototype, Role C may choose and document:
+
+- candidate wind thresholds and tier benefits, after confirming the wind metric and unit with Role B;
+- whether threshold equality is inclusive; `wind_speed >= threshold` is the recommended baseline because it is deterministic and easy to test;
+- candidate 14-, 28-, and 42-day benefits corresponding to the memorandum's two-, four-, and six-week concept, while also testing at least one alternative schedule;
+- a candidate per-event cap for sensitivity analysis;
+- the rounding mode and minimum currency unit for model outputs; retaining full precision internally and applying explicit `ROUND_HALF_UP` at the configured output boundary is the recommended baseline; and
+- a candidate identifier such as `climada-trigger-candidate-v0.1`.
+
+Role C must deliver at least one baseline candidate, one alternative, boundary tests immediately below, at, and above every threshold, and a short sensitivity table showing how the candidate changes affected merchants and modeled payouts. The candidate configuration must carry `status: experimental` and must not use `official`, `approved`, or `production` in its name.
+
+The following remain Product or backend decisions and should stay configurable in C's implementation: the policy period and effective-date rules, the final per-event and aggregate limits, the rule promoted for business use, eligibility, duplicate-event handling, and final payable amount. For modeling comparisons, C and D may use a clearly labeled 365-day baseline and a typhoon-season sensitivity case; neither case establishes the actual policy period.

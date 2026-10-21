@@ -1,0 +1,12 @@
+import type { ReactNode } from 'react';
+import { ArrowUpRight, Check, ChevronRight, Clock3, LoaderCircle } from 'lucide-react';
+
+export const money = (centavos: number) => new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: centavos % 100 ? 2 : 0, maximumFractionDigits: 2 }).format(centavos / 100);
+export const dateTime = (s?: string) => s ? new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Manila' }).format(new Date(s)) + ' PHT' : 'Not available';
+export const shortDate = (s: string) => new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'Asia/Manila' }).format(new Date(s));
+export function Pill({ children, tone = 'neutral' }: { children: ReactNode; tone?: 'neutral' | 'blue' | 'green' | 'amber' | 'red' }) { return <span className={`pill ${tone}`}><span className="status-dot" />{children}</span>; }
+export function Button({ children, onClick, disabled, kind = 'primary', busy = false, ...rest }: { children: ReactNode; onClick?: () => void; disabled?: boolean; kind?: 'primary' | 'secondary' | 'ghost' | 'danger'; busy?: boolean; type?: 'button' | 'submit'; title?: string }) { return <button className={`button ${kind}`} onClick={onClick} disabled={disabled || busy} {...rest}>{busy && <LoaderCircle size={15} className="spin" />}{children}</button>; }
+export function SectionHeading({ eyebrow, title, right }: { eyebrow?: string; title: string; right?: ReactNode }) { return <div className="section-heading"><div>{eyebrow && <span className="eyebrow">{eyebrow}</span>}<h2>{title}</h2></div>{right}</div>; }
+export function Empty({ icon, title, children, action }: { icon?: ReactNode; title: string; children: ReactNode; action?: ReactNode }) { return <div className="empty-state"><div className="empty-icon">{icon || <Clock3 size={26} />}</div><h3>{title}</h3><p>{children}</p>{action}</div>; }
+export function Step({ number, title, children, done }: { number: string; title: string; children: ReactNode; done?: boolean }) { return <div className="guide-step"><span className={done ? 'step-number done' : 'step-number'}>{done ? <Check size={14} /> : number}</span><div><h3>{title}</h3><p>{children}</p></div><ChevronRight size={16} /></div>; }
+export function TextLink({ children, onClick }: { children: ReactNode; onClick: () => void }) { return <button className="text-link" onClick={onClick}>{children}<ArrowUpRight size={14} /></button>; }

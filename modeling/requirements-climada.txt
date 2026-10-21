@@ -1,0 +1,18 @@
+# Exact environment used by Role B for its real CLIMADA 6.1.0 offline fixture.
+climada==6.1.0
+numpy==2.4.4
+scipy==1.17.1
+pandas==3.0.2
+xarray==2026.9.0
+geopandas==1.2.0
+shapely==2.2.0
+pyproj==3.8.0
+Cartopy==0.26.0
+netCDF4==1.7.5
+rasterio==1.5.2
+GDAL==3.8.4
+statsmodels==0.15.0
+scikit-learn==1.8.0
+numba==0.68.0
+pathos==0.3.5
+Pint==0.26.2

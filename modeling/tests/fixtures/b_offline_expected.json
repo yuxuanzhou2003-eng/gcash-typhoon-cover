@@ -1,0 +1,27 @@
+{
+ "_label": "Expected output of the REAL CLIMADA engine on b_offline_track_fixture.json (synthetic track).",
+ "climada_version": "6.1.0",
+ "module_version": "0.3.0",
+ "config": {
+  "wind_model": "H08",
+  "intensity_threshold_mps": 17.5,
+  "max_dist_eye_km": 300.0,
+  "ignore_distance_to_coast": true,
+  "track_time_step_h": 1.0
+ },
+ "tolerance_mps": 0.01,
+ "locations": {
+  "FX-NEAR": {
+   "wind_speed_mps": 57.72004,
+   "data_status": "ok"
+  },
+  "FX-MID": {
+   "wind_speed_mps": 22.212455,
+   "data_status": "ok"
+  },
+  "FX-FAR": {
+   "wind_speed_mps": null,
+   "data_status": "outside_storm_reach"
+  }
+ }
+}

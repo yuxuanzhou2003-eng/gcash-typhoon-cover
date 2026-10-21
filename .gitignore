@@ -10,7 +10,18 @@
 .env.*
 !.env.example
 .venv/
+.tools/
 __pycache__/
 node_modules/
 .DS_Store
 Thumbs.db
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+*.tsbuildinfo
+backend/data/
+.pytest_cache/
+*.pyc
+
+# Local teammate submission extracts and rendered review artifacts.
+/_review/

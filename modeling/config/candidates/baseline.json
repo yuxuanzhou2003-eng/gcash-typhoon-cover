@@ -1,0 +1,40 @@
+{
+  "rule_version": "climada-trigger-candidate-v0.1",
+  "rule_status": "experimental",
+  "wind_unit": "m/s",
+  "wind_metric": "sustained_10min_10m",
+  "threshold_boundary": "inclusive",
+  "coverage_window_rule": "event_overlaps_window",
+  "coverage_window_mode": "recurring_month_day",
+  "coverage_window_timezone_offset_hours": 8,
+  "outside_reach_treatment": "no_trigger",
+  "rounding": {
+    "unit_php": 1,
+    "mode": "half_up"
+  },
+  "_threshold_source": "Lower bound of PAGASA Modified TCWS wind ranges (km/h), effective 2022-03-23, converted to m/s by /3.6. PAGASA press release does not state the averaging period; 10-minute is per Role B, source pending.",
+  "_status_note": "Modeling hypothesis for Product review (BUSINESS_RULES s5). Not an approved policy term.",
+  "candidate_id": "climada-trigger-candidate-v0.1-baseline",
+  "tiers": [
+    {
+      "tier": 1,
+      "threshold_mps": 17.2222,
+      "benefit_days": 14,
+      "_anchor": "PAGASA TCWS Signal 2 lower bound (62 km/h)"
+    },
+    {
+      "tier": 2,
+      "threshold_mps": 24.7222,
+      "benefit_days": 28,
+      "_anchor": "PAGASA TCWS Signal 3 lower bound (89 km/h)"
+    },
+    {
+      "tier": 3,
+      "threshold_mps": 32.7778,
+      "benefit_days": 42,
+      "_anchor": "PAGASA TCWS Signal 4 lower bound (118 km/h)"
+    }
+  ],
+  "per_event_cap_php": 50000,
+  "_rationale": "Tier 1 starts at Signal 2 (gale-force; PAGASA: 'minor to moderate threat'), the first level above 'minimal to minor'. Tiers 2-3 at Signals 3 and 4. 14/28/42 days follow the memo's 2/4/6 weeks. Cap PHP 50,000 limits outliers only."
+}
