@@ -9,6 +9,8 @@ Start with the [project overview and ownership](docs/README.md). The short versi
 - The agent service runs at `http://localhost:8000` (`127.0.0.1:8000`). Vite proxies `/api/agents` to it during development.
 - Agent runs use three ordered stages: **intelligence → operations → review**. The service stores the frozen snapshot, facts, stage results and draft tasks in SQLite.
 - Agents provide advisory text only. People accept, dismiss or complete proposals; agents do not approve or pay batches and do not send notifications.
+- A first-run guide tour (`frontend/src/guide/`) walks new users through the workspace; it can be skipped and does not gate any feature.
+- The Plan A pricing view (`frontend/src/pricing/`) renders the finalized typhoon cover pricing from `modeling/config/candidates/plan_a.json`, the current pricing candidate.
 
 ## Quick start
 
