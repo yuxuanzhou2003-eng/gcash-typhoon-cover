@@ -4,7 +4,7 @@ import { applyCommand, emptyWorkspace } from './engine';
 
 const portfolioId = 'portfolio-core-visayas';
 const stormId = 'storm-rai-replay';
-const ruleId = 'rule-synthetic-tiered';
+const ruleId = 'rule-plan-a';
 
 function demo(): Workspace {
   return applyCommand(emptyWorkspace(), { type: 'load_demo' });
@@ -121,6 +121,34 @@ describe('mock business engine', () => {
     expect(forecastRun?.items).not.toEqual(firstItems);
   });
 
+  it('pays Plan A one-day steps as a share of each merchant cover', () => {
+    const state = completedSettlementRun(advanceToSettlement(demo()));
+    const payouts = Object.fromEntries(state.runs.at(-1)?.items.map((item) => [item.merchantId, item.payout]) ?? []);
+    expect(payouts).toEqual({
+      'merchant-tacloban-bakery': 1_372_500,
+      'merchant-cebu-market': 2_940_414,
+      'merchant-davao-logistics': 0,
+      'merchant-manila-pharmacy': 0,
+    });
+  });
+
+  it('tops a later, stronger storm up to the cover instead of paying twice', () => {
+    let state = approvedBatch(advanceToSettlement(demo()));
+    const rai = state.storms.find((storm) => storm.id === stormId);
+    const second = structuredClone(rai!);
+    second.id = 'storm-second-test';
+    second.bulletins = second.bulletins.map((bulletin) => ({ ...bulletin, id: `${bulletin.id}-second`, wind: 70 }));
+    state.storms.push(second);
+    for (let step = 0; step < 3; step += 1) state = applyCommand(state, { type: 'advance', portfolioId, stormId: second.id });
+    state = applyCommand(state, { type: 'run_model', portfolioId, stormId: second.id, ruleId });
+    state = applyCommand(state, { type: 'complete_run', runId: state.runs.at(-1)?.id ?? '' });
+    expect(state.runs.at(-1)?.items.find((item) => item.merchantId === 'merchant-cebu-market')?.payout).toBe(3_166_600);
+    state = applyCommand(state, { type: 'create_batch', runId: state.runs.at(-1)?.id ?? '' });
+    const amounts = Object.fromEntries(state.batches.at(-1)?.items.map((item) => [item.merchantId, item.amount]) ?? []);
+    expect(amounts['merchant-cebu-market']).toBe(226_186);
+    expect(amounts['merchant-tacloban-bakery']).toBeUndefined();
+  });
+
   it('closes old settlement and funding actions when a newer result has no trigger', () => {
     let state = advanceToSettlement(demo());
     state = completedSettlementRun(state);
@@ -177,7 +205,7 @@ describe('mock business engine', () => {
     const oldRun = state.runs.at(-1);
     state = applyCommand(state, { type: 'create_batch', runId: oldRun?.id ?? '' });
     const draft = state.batches.at(-1);
-    state = applyCommand(state, { type: 'run_model', portfolioId, stormId, ruleId: 'rule-synthetic-balanced' });
+    state = applyCommand(state, { type: 'run_model', portfolioId, stormId, ruleId: 'rule-original-design' });
     state = applyCommand(state, { type: 'complete_run', runId: state.runs.at(-1)?.id ?? '' });
     expect(() => applyCommand(state, { type: 'submit_batch', batchId: draft?.id ?? '', version: draft?.version ?? 0 })).toThrow(/obsolete/);
 
@@ -185,7 +213,7 @@ describe('mock business engine', () => {
     const approved = state.batches.at(-1);
     state = applyCommand(state, { type: 'pay_batch', batchId: approved?.id ?? '', version: approved?.version ?? 0, scenario: 'timeout' });
     const timedOut = state.batches.at(-1);
-    state = applyCommand(state, { type: 'run_model', portfolioId, stormId, ruleId: 'rule-synthetic-balanced' });
+    state = applyCommand(state, { type: 'run_model', portfolioId, stormId, ruleId: 'rule-original-design' });
     state = applyCommand(state, { type: 'complete_run', runId: state.runs.at(-1)?.id ?? '' });
     state = applyCommand(state, { type: 'reconcile_batch', batchId: timedOut?.id ?? '', version: timedOut?.version ?? 0 });
     expect(state.batches.at(-1)?.status).toBe('completed');

@@ -1,4 +1,5 @@
 import type { Bulletin, Merchant, Portfolio, Rule, Storm } from '../contracts';
+import planA from '../pricing/planA.json';
 
 /**
  * The fixtures deliberately describe a synthetic replay.  They are useful for
@@ -6,6 +7,9 @@ import type { Bulletin, Merchant, Portfolio, Rule, Storm } from '../contracts';
  * historical observations.
  */
 export const SYNTHETIC_SOURCE = 'Synthetic fixture for UI replay; not historical weather data';
+
+const planACover = Object.fromEntries(planA.runs[0].locations.map((location) => [location.city, Math.round(location.cover * 100)]));
+const planATiers = planA.tiers.map((tier) => ({ wind: tier.thresholdMps, fraction: tier.benefitDays / 28 }));
 
 const coverageStart = '2026-01-01T00:00:00.000Z';
 const coverageEnd = '2026-12-31T23:59:59.000Z';
@@ -17,7 +21,7 @@ const demoMerchantsOne: Merchant[] = [
     region: 'Tacloban, Eastern Visayas',
     lat: 11.2443,
     lng: 125.0039,
-    sumInsured: 25_000_000,
+    sumInsured: planACover['Tacloban'],
     coverageStart,
     coverageEnd,
   },
@@ -27,7 +31,7 @@ const demoMerchantsOne: Merchant[] = [
     region: 'Cebu City, Central Visayas',
     lat: 10.3157,
     lng: 123.8854,
-    sumInsured: 40_000_000,
+    sumInsured: planACover['Cebu City'],
     coverageStart,
     coverageEnd,
   },
@@ -37,7 +41,7 @@ const demoMerchantsOne: Merchant[] = [
     region: 'Davao City, Davao Region',
     lat: 7.1907,
     lng: 125.4553,
-    sumInsured: 32_000_000,
+    sumInsured: planACover['Davao City'],
     coverageStart,
     coverageEnd,
   },
@@ -47,7 +51,7 @@ const demoMerchantsOne: Merchant[] = [
     region: 'Manila, Metro Manila',
     lat: 14.5995,
     lng: 120.9842,
-    sumInsured: 18_000_000,
+    sumInsured: planACover['Manila'],
     coverageStart,
     coverageEnd,
   },
@@ -60,7 +64,7 @@ const demoMerchantsTwo: Merchant[] = [
     region: 'Iloilo City, Western Visayas',
     lat: 10.7202,
     lng: 122.5621,
-    sumInsured: 28_000_000,
+    sumInsured: planACover['Iloilo City'],
     coverageStart,
     coverageEnd,
   },
@@ -70,7 +74,7 @@ const demoMerchantsTwo: Merchant[] = [
     region: 'Legazpi, Bicol Region',
     lat: 13.1391,
     lng: 123.7438,
-    sumInsured: 22_000_000,
+    sumInsured: planACover['Legazpi'],
     coverageStart,
     coverageEnd,
   },
@@ -80,7 +84,7 @@ const demoMerchantsTwo: Merchant[] = [
     region: 'Cagayan de Oro, Northern Mindanao',
     lat: 8.4542,
     lng: 124.6319,
-    sumInsured: 36_000_000,
+    sumInsured: planACover['Cagayan de Oro'],
     coverageStart,
     coverageEnd,
   },
@@ -90,7 +94,7 @@ const demoMerchantsTwo: Merchant[] = [
     region: 'Baguio, Cordillera Administrative Region',
     lat: 16.4023,
     lng: 120.596,
-    sumInsured: 20_000_000,
+    sumInsured: planACover['Baguio'],
     coverageStart,
     coverageEnd,
   },
@@ -115,34 +119,32 @@ export const demoPortfolios: Portfolio[] = [
   },
 ];
 
+export const PLAN_A_SOURCE = `Plan A terms from the CLIMADA historical run (${planA.ruleVersion}); merchant cover is the PHP 1,200 solved cover at the 0.88 wind factor; demo local wind is a point estimate, not the 15 km index`;
+
 export const demoRules: Rule[] = [
   {
-    id: 'rule-synthetic-tiered',
-    name: 'Synthetic tiered wind cover',
-    version: 'demo-1.0',
-    tiers: [
-      { wind: 90, fraction: 0.1 },
-      { wind: 120, fraction: 0.25 },
-      { wind: 150, fraction: 0.5 },
-    ],
-    expenseRate: 0.1,
-    annualEventRate: 0.08,
+    id: 'rule-plan-a',
+    name: 'Plan A · 15 km wind index',
+    version: planA.ruleVersion,
+    tiers: planATiers,
+    expenseRate: 0,
+    annualEventRate: 0,
     currency: 'PHP',
-    source: SYNTHETIC_SOURCE,
+    source: PLAN_A_SOURCE,
   },
   {
-    id: 'rule-synthetic-balanced',
-    name: 'Synthetic balanced wind cover',
-    version: 'demo-1.0',
+    id: 'rule-original-design',
+    name: 'Original design (comparison)',
+    version: 'climada-trigger-candidate-v0.1-baseline',
     tiers: [
-      { wind: 100, fraction: 0.08 },
-      { wind: 135, fraction: 0.2 },
-      { wind: 165, fraction: 0.4 },
+      { wind: 17.2222, fraction: 1 / 3 },
+      { wind: 24.7222, fraction: 2 / 3 },
+      { wind: 32.7778, fraction: 1 },
     ],
-    expenseRate: 0.12,
-    annualEventRate: 0.06,
+    expenseRate: 0,
+    annualEventRate: 0,
     currency: 'PHP',
-    source: SYNTHETIC_SOURCE,
+    source: 'Original 14 / 28 / 42 day design expressed as a share of cover; fails the PHP 1,200 affordability line',
   },
 ];
 
@@ -151,7 +153,7 @@ const replayBulletins: Bulletin[] = [
     id: 'rai-replay-forecast-1',
     issuedAt: '2026-01-10T00:00:00.000Z',
     label: 'Forecast 1 · synthetic watch',
-    wind: 95,
+    wind: 28,
     center: { lat: 11.1, lng: 124.8 },
     track: [
       { lat: 11.1, lng: 124.8 },
@@ -164,7 +166,7 @@ const replayBulletins: Bulletin[] = [
     id: 'rai-replay-forecast-2',
     issuedAt: '2026-01-11T00:00:00.000Z',
     label: 'Forecast 2 · synthetic watch',
-    wind: 130,
+    wind: 42,
     center: { lat: 11.4, lng: 124.6 },
     track: [
       { lat: 11.4, lng: 124.6 },
@@ -177,7 +179,7 @@ const replayBulletins: Bulletin[] = [
     id: 'rai-replay-forecast-3',
     issuedAt: '2026-01-12T00:00:00.000Z',
     label: 'Forecast 3 · synthetic watch',
-    wind: 160,
+    wind: 58,
     center: { lat: 11.8, lng: 124.3 },
     track: [
       { lat: 11.8, lng: 124.3 },
@@ -190,7 +192,7 @@ const replayBulletins: Bulletin[] = [
     id: 'rai-replay-settlement',
     issuedAt: '2026-01-15T00:00:00.000Z',
     label: 'Settlement · synthetic replay',
-    wind: 160,
+    wind: 58,
     center: { lat: 11.4, lng: 124.5 },
     track: [
       { lat: 11.4, lng: 124.5 },
@@ -213,17 +215,13 @@ export const demoStorms: Storm[] = [
 export const importRules: Rule[] = [
   {
     id: 'rule-import-default',
-    name: 'Synthetic imported portfolio cover',
-    version: 'import-1.0',
-    tiers: [
-      { wind: 85, fraction: 0.1 },
-      { wind: 125, fraction: 0.2 },
-      { wind: 155, fraction: 0.35 },
-    ],
-    expenseRate: 0.1,
-    annualEventRate: 0.07,
+    name: 'Plan A · imported portfolio',
+    version: planA.ruleVersion,
+    tiers: planATiers,
+    expenseRate: 0,
+    annualEventRate: 0,
     currency: 'PHP',
-    source: 'Synthetic import catalog; not a final policy or historical weather source',
+    source: `${PLAN_A_SOURCE}; imported sumInsured is read as the Plan A cover`,
   },
 ];
 
@@ -237,7 +235,7 @@ export const importStorms: Storm[] = [
         id: 'import-replay-forecast-1',
         issuedAt: '2026-02-10T00:00:00.000Z',
         label: 'Forecast 1 · synthetic import',
-        wind: 90,
+        wind: 30,
         center: { lat: 12.0, lng: 123.0 },
         track: [{ lat: 12.0, lng: 123.0 }, { lat: 12.5, lng: 122.6 }],
         phase: 'forecast',
@@ -247,7 +245,7 @@ export const importStorms: Storm[] = [
         id: 'import-replay-forecast-2',
         issuedAt: '2026-02-11T00:00:00.000Z',
         label: 'Forecast 2 · synthetic import',
-        wind: 125,
+        wind: 42,
         center: { lat: 12.3, lng: 122.7 },
         track: [{ lat: 12.3, lng: 122.7 }, { lat: 12.8, lng: 122.2 }],
         phase: 'forecast',
@@ -257,7 +255,7 @@ export const importStorms: Storm[] = [
         id: 'import-replay-forecast-3',
         issuedAt: '2026-02-12T00:00:00.000Z',
         label: 'Forecast 3 · synthetic import',
-        wind: 155,
+        wind: 55,
         center: { lat: 12.6, lng: 122.3 },
         track: [{ lat: 12.6, lng: 122.3 }, { lat: 13.1, lng: 121.8 }],
         phase: 'forecast',
@@ -267,7 +265,7 @@ export const importStorms: Storm[] = [
         id: 'import-replay-settlement',
         issuedAt: '2026-02-15T00:00:00.000Z',
         label: 'Settlement · synthetic import',
-        wind: 155,
+        wind: 55,
         center: { lat: 12.4, lng: 122.5 },
         track: [{ lat: 12.4, lng: 122.5 }, { lat: 12.9, lng: 122.0 }],
         phase: 'settlement',

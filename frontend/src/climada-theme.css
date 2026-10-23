@@ -123,3 +123,10 @@ body { padding: 22px; background: #C7CBD2; }
   .climada-frame .main-nav a { flex-shrink: 0; min-height: 40px; font-size: 12px; }
   .climada-frame .page-heading-actions { flex-wrap: wrap; }
 }
+
+/* Line-breaking: balanced headings, no single-word last lines, short labels never split. */
+h1, h2, h3, h4 { text-wrap: balance; }
+p { text-wrap: pretty; }
+.impact-panel dl { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.impact-panel dt, .impact-panel dd { white-space: nowrap; }
+.plan-compare small { text-wrap: balance; }

@@ -1,0 +1,112 @@
+{
+  "rule_version": "climada-trigger-plan-a-v2",
+  "rule_status": "experimental",
+  "wind_unit": "m/s",
+  "wind_metric": "sustained_10min_10m",
+  "threshold_boundary": "inclusive",
+  "coverage_window_rule": "event_overlaps_window",
+  "coverage_window_mode": "recurring_month_day",
+  "coverage_window_timezone_offset_hours": 8,
+  "outside_reach_treatment": "no_trigger",
+  "rounding": {
+    "unit_php": 1,
+    "mode": "half_up"
+  },
+  "_threshold_source": "Lower bound of PAGASA Modified TCWS wind ranges (km/h), effective 2022-03-23, converted to m/s by /3.6. PAGASA press release does not state the averaging period; 10-minute is per Role B, source pending.",
+  "_status_note": "Modeling hypothesis for Product review (BUSINESS_RULES s5). Not an approved policy term.",
+  "candidate_id": "climada-trigger-plan-a-v2-r15-linear",
+  "tiers": [
+    {
+      "tier": 1,
+      "threshold_mps": 32.7778,
+      "benefit_days": 14,
+      "_anchor": "PAGASA TCWS Signal 4 lower bound"
+    },
+    {
+      "tier": 2,
+      "threshold_mps": 34.1072,
+      "benefit_days": 15,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 3,
+      "threshold_mps": 35.4365,
+      "benefit_days": 16,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 4,
+      "threshold_mps": 36.7659,
+      "benefit_days": 17,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 5,
+      "threshold_mps": 38.0953,
+      "benefit_days": 18,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 6,
+      "threshold_mps": 39.4246,
+      "benefit_days": 19,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 7,
+      "threshold_mps": 40.754,
+      "benefit_days": 20,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 8,
+      "threshold_mps": 42.0833,
+      "benefit_days": 21,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 9,
+      "threshold_mps": 43.4127,
+      "benefit_days": 22,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 10,
+      "threshold_mps": 44.7421,
+      "benefit_days": 23,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 11,
+      "threshold_mps": 46.0714,
+      "benefit_days": 24,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 12,
+      "threshold_mps": 47.4008,
+      "benefit_days": 25,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 13,
+      "threshold_mps": 48.7302,
+      "benefit_days": 26,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 14,
+      "threshold_mps": 50.0595,
+      "benefit_days": 27,
+      "_anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+    },
+    {
+      "tier": 15,
+      "threshold_mps": 51.3889,
+      "benefit_days": 28,
+      "_anchor": "PAGASA TCWS Signal 5 lower bound"
+    }
+  ],
+  "per_event_cap_php": 50000,
+  "_rationale": "Plan A v2: fixed PHP 1,200 pure premium; cover solved per location; wind index is the highest wind within 15 km; 50% of cover at Signal 4 rising to 100% at Signal 5 in 1-day steps; one payout per year. Chosen in design_basis_risk.py (variant A4)."
+}

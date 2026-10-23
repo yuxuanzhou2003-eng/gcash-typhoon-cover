@@ -1,0 +1,289 @@
+/* Guided tour: welcome modal and spotlight coach-marks, ported from ForeSail's guide.css. */
+
+.guide-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  --sans: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--sans);
+  /* Spotlight tours must let the user actually use the page underneath
+     (click the highlighted upload button, etc.). Only the tooltip and the
+     welcome modal capture clicks — re-enabled on those elements below. */
+  pointer-events: none;
+}
+.guide-tip,
+.guide-welcome-backdrop,
+.guide-welcome-card {
+  pointer-events: auto;
+}
+
+/* ---- Spotlight overlay ---- */
+.guide-mask {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.guide-ring {
+  position: absolute;
+  border: 2px solid var(--blue, #5f7fd0);
+  border-radius: 14px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--blue, #5f7fd0) 22%, transparent);
+  pointer-events: none;
+  transition: top 0.28s ease, left 0.28s ease, width 0.28s ease, height 0.28s ease;
+}
+
+/* ---- Tooltip / step card ---- */
+.guide-tip {
+  position: absolute;
+  background: var(--surface, #fafbfd);
+  border-radius: 16px;
+  box-shadow: 0 18px 48px -12px rgba(20, 26, 38, 0.4), 0 0 0 1px var(--line, #e6e9ef);
+  padding: 18px 18px 14px;
+  pointer-events: auto;
+  animation: guide-pop 0.22s ease both;
+}
+.guide-tip.centered {
+  box-shadow: 0 24px 64px -14px rgba(20, 26, 38, 0.5), 0 0 0 1px var(--line, #e6e9ef);
+}
+
+@keyframes guide-pop {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.guide-tip.centered { animation-name: guide-pop-center; }
+@keyframes guide-pop-center {
+  from { opacity: 0; transform: translate(-50%, -46%) scale(0.98); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.guide-tip h3 {
+  margin: 0 34px 6px 0;
+  font: 800 15px var(--sans);
+  color: var(--ink, #2c323b);
+  letter-spacing: -0.01em;
+}
+.guide-tip p {
+  margin: 0 0 14px;
+  font: 500 13px/1.5 var(--sans);
+  color: var(--muted, #747b88);
+}
+.guide-tip .guide-hint {
+  margin: -6px 0 14px;
+  font: 700 11px var(--sans);
+  color: var(--blue, #5f7fd0);
+}
+
+.guide-skip {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: 0;
+  background: transparent;
+  padding: 2px 4px;
+  font: 700 11px var(--sans);
+  color: #9aa6b5;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.guide-skip:hover { color: var(--muted, #747b88); }
+.guide-count {
+  display: block;
+  margin-bottom: 4px;
+  font: 700 10px var(--sans);
+  letter-spacing: 0.06em;
+  color: var(--blue, #5f7fd0);
+}
+
+.guide-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 12px;
+}
+.guide-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.guide-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line, #e6e9ef);
+  transition: all 0.2s ease;
+}
+.guide-dots span.done { background: color-mix(in srgb, var(--blue, #5f7fd0) 45%, transparent); }
+.guide-dots span.on { width: 18px; background: var(--blue, #5f7fd0); }
+
+.guide-btns { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.guide-btns button { white-space: nowrap; }
+.guide-prev {
+  border: 1px solid var(--line, #e6e9ef);
+  background: var(--surface, #fafbfd);
+  border-radius: 999px;
+  padding: 6px 13px;
+  font: 700 12px var(--sans);
+  color: var(--muted, #747b88);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.guide-prev:hover { border-color: var(--blue, #5f7fd0); color: var(--blue, #5f7fd0); }
+.guide-next {
+  border: 0;
+  background: var(--blue, #5f7fd0);
+  border-radius: 999px;
+  padding: 7px 15px;
+  font: 700 12px var(--sans);
+  color: #fff;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+.guide-next:hover { filter: brightness(1.06); }
+.guide-pass {
+  border: 0;
+  background: transparent;
+  padding: 6px 4px;
+  font: 700 12px var(--sans);
+  color: #9aa6b5;
+  cursor: pointer;
+}
+.guide-pass:hover { color: var(--muted, #747b88); }
+.guide-prev:focus-visible, .guide-next:focus-visible, .guide-pass:focus-visible, .guide-skip:focus-visible,
+.guide-skip-btn:focus-visible, .guide-start-btn:focus-visible {
+  outline: 2px solid var(--blue, #5f7fd0);
+  outline-offset: 2px;
+}
+
+/* ---- Welcome modal ---- */
+.guide-welcome-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 26, 38, 0.5);
+  backdrop-filter: blur(3px);
+}
+.guide-welcome-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(560px, calc(100vw - 32px));
+  background: var(--surface, #fafbfd);
+  border-radius: 20px;
+  box-shadow: 0 30px 80px -18px rgba(20, 26, 38, 0.55), 0 0 0 1px var(--line, #e6e9ef);
+  padding: 30px 30px 26px;
+  animation: guide-pop-center 0.26s ease both;
+}
+.guide-welcome-kicker {
+  display: inline-block;
+  font: 800 9.5px var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue, #5f7fd0);
+  background: var(--viz-blue-fill, #eef2fb);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.guide-welcome-card h2 {
+  margin: 0 0 8px;
+  font: 800 24px var(--sans);
+  color: var(--ink, #2c323b);
+  letter-spacing: -0.02em;
+}
+.guide-welcome-lead {
+  margin: 0 0 20px;
+  font: 500 14px/1.55 var(--sans);
+  color: var(--muted, #747b88);
+}
+
+.guide-phases {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.guide-phase {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: #f3f5f9;
+  border-radius: 13px;
+  padding: 13px 15px;
+  box-shadow: inset 0 0 0 1px var(--line, #e6e9ef);
+}
+.guide-phase-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--surface, #fafbfd);
+  color: var(--blue, #5f7fd0);
+}
+.guide-phase > div { display: flex; flex-direction: column; gap: 2px; }
+.guide-phase strong {
+  font: 800 13px var(--sans);
+  color: var(--ink, #2c323b);
+}
+.guide-phase span {
+  font: 500 12px/1.4 var(--sans);
+  color: var(--muted, #747b88);
+}
+.guide-phase-arrow {
+  position: absolute;
+  right: 15px;
+  bottom: -13px;
+  z-index: 1;
+  font: 800 14px var(--sans);
+  color: color-mix(in srgb, var(--blue, #5f7fd0) 55%, transparent);
+}
+
+.guide-welcome-note {
+  margin: 0 0 22px;
+  font: 500 12px/1.5 var(--sans);
+  color: #9aa6b5;
+}
+
+.guide-welcome-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.guide-skip-btn {
+  border: 0;
+  background: transparent;
+  padding: 9px 12px;
+  font: 700 13px var(--sans);
+  color: var(--muted, #747b88);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.guide-skip-btn:hover { color: var(--ink, #2c323b); }
+.guide-start-btn {
+  border: 0;
+  background: var(--blue, #5f7fd0);
+  border-radius: 999px;
+  padding: 11px 22px;
+  font: 700 13px var(--sans);
+  color: #fff;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+.guide-start-btn:hover { filter: brightness(1.06); }
+
+@media (max-width: 640px) {
+  .guide-tip { width: min(340px, calc(100vw - 24px)) !important; }
+  .guide-phase-arrow { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-ring { transition: none; }
+  .guide-tip, .guide-tip.centered, .guide-welcome-card { animation: none; }
+}

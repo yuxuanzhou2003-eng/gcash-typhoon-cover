@@ -1302,3 +1302,22 @@
     animation: none;
   }
 }
+
+/* Fact lists appear in cards of very different widths, so the label/value split follows the
+   list's own width rather than the viewport. */
+.agent-fact-list {
+  container-type: inline-size;
+}
+
+@container (max-width: 440px) {
+  .agent-fact > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .agent-fact span {
+    max-width: none;
+    text-align: left;
+  }
+}

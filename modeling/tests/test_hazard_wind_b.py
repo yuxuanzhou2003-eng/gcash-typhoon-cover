@@ -1,5 +1,5 @@
 """
-Contract tests for Part B (hazard_wind_b 0.3.0).
+Contract tests for Part B (hazard_wind_b 0.4.0).
 Run with:  python -m unittest test_hazard_wind_b.py -v
 
 Two kinds of test:
@@ -81,6 +81,21 @@ class TestCoverageAndContract(unittest.TestCase):
         last = run_b(exposure=exp)["locations"][-1]
         self.assertEqual(last["reason_code"], hb.REASON_DUPLICATE_LOCATION)
         self.assertIsNone(last["wind_speed_mps"])
+
+    def test_neighbourhood_max_takes_the_highest_ring_wind(self):
+        cfg = replace(CFG, centroid_granularity="exposure_neighbourhood_max", neighbourhood_bearings=4,
+                      fixture_intensity={**CFG.fixture_intensity, "EVT1|L2@15km/090": 25.0, "EVT1|L1@15km/180": 20.0})
+        out = run_b(cfg=cfg)
+        by_id = {r["location_id"]: r for r in out["locations"]}
+        self.assertEqual(by_id["L1"]["wind_speed_mps"], 30.0)               # the location itself is highest
+        self.assertEqual(by_id["L2"]["wind_speed_mps"], 25.0)               # a ring point lifts it above threshold
+        self.assertEqual(by_id["L2"]["data_status"], hb.STATUS_OK)
+        self.assertEqual(len(out["locations"]), len(EXPOSURE))
+        self.assertNotEqual(out["manifest"]["config_hash"], run_b()["manifest"]["config_hash"])
+
+    def test_unknown_granularity_rejected(self):
+        with self.assertRaises(NotImplementedError):
+            run_b(cfg=replace(CFG, centroid_granularity="admin_areas"))
 
     def test_shared_wind_field(self):
         ids = {r["wind_field_id"] for r in run_b()["locations"] if r["wind_field_id"]}
@@ -196,6 +211,10 @@ class TestWindDefinition(unittest.TestCase):
         rows = {row["location_id"]: row for row in out["event_location_winds"]}
         self.assertEqual(rows["CIRC"]["data_status"], hb.STATUS_OUTSIDE_CIRCULATION)
         self.assertIsNone(rows["CIRC"]["reason_code"])
+        self.assertEqual(rows["MODEL"]["data_status"], hb.STATUS_OUTSIDE_CIRCULATION)
+        wide = run_b(exposure=exposure, tracks=_track(radius_oci_nm=1000),
+                     cfg=replace(CFG, fixture_intensity={}))
+        rows = {row["location_id"]: row for row in wide["event_location_winds"]}
         self.assertEqual(rows["MODEL"]["data_status"], hb.STATUS_OUTSIDE_MODEL_RADIUS)
         self.assertEqual(rows["MODEL"]["reason_code"], hb.REASON_COVERAGE_GAP)
 
@@ -392,6 +411,16 @@ class TestRealClimada(unittest.TestCase):
             else:
                 self.assertAlmostEqual(r["wind_speed_mps"], exp["wind_speed_mps"], delta=tol)
         self.assertEqual(self.run_real()["manifest"]["output_hash"], out["manifest"]["output_hash"])
+
+    def test_neighbourhood_max_is_at_least_the_point_wind(self):
+        point = {r["location_id"]: r["wind_speed_mps"] for r in self.run_real()["locations"]}
+        ring = self.run_real(centroid_granularity="exposure_neighbourhood_max")
+        self.assertEqual(len(ring["locations"]), len(self.fx["exposure"]))
+        for r in ring["locations"]:
+            if point[r["location_id"]] is not None:
+                self.assertGreaterEqual(r["wind_speed_mps"], point[r["location_id"]])
+        self.assertTrue(any(r["wind_speed_mps"] and point[r["location_id"]]
+                            and r["wind_speed_mps"] > point[r["location_id"]] for r in ring["locations"]))
 
     def test_download_attempt_is_blocked_and_structured(self):
         out = self.run_real(ignore_distance_to_coast=False)   # CLIMADA would fetch a NASA file here

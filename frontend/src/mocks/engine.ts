@@ -250,7 +250,7 @@ function localWind(merchant: Merchant, bulletin: Bulletin): number {
   const lngDelta = (merchant.lng - bulletin.center.lng) * latitudeScale;
   const radius = Math.sqrt(latDelta * latDelta + lngDelta * lngDelta);
   const decay = Math.max(0, 1 - radius / MAX_RADIUS_DEGREES);
-  return Math.max(0, Math.round(bulletin.wind * decay));
+  return Math.max(0, Math.round(bulletin.wind * decay * 10) / 10);
 }
 
 function tierFor(rule: Rule, wind: number): { wind: number; fraction: number } | undefined {
@@ -292,7 +292,7 @@ function calculateItems(portfolio: Portfolio, rule: Rule, bulletin: Bulletin): R
         wind,
         payout: 0,
         eligible: false,
-        reason: 'Below synthetic trigger threshold',
+        reason: `Below the lowest trigger (${rule.tiers[0].wind.toFixed(1)} m/s)`,
       };
     }
 
@@ -301,7 +301,7 @@ function calculateItems(portfolio: Portfolio, rule: Rule, bulletin: Bulletin): R
       wind,
       payout: moneyRound(merchant.sumInsured * tier.fraction, `${merchant.id}.payout`),
       eligible: true,
-      reason: `Eligible at synthetic ${tier.wind} wind tier`,
+      reason: `Reached the ${tier.wind.toFixed(1)} m/s tier: ${Math.round(tier.fraction * 100)}% of cover`,
     };
   });
 }
@@ -616,8 +616,7 @@ function commandCreateBatch(state: Workspace, command: Extract<Command, { type: 
   const payoutItems: PayoutItem[] = [];
   for (const [index, item] of positiveItems.entries()) {
     const merchant = merchantFor(current.portfolio, item.merchantId);
-    const available = merchant.sumInsured - committedAmount(state, run.portfolioId, merchant.id);
-    const amount = Math.min(item.payout, Math.max(0, available));
+    const amount = Math.max(0, item.payout - committedAmount(state, run.portfolioId, merchant.id));
     if (amount <= 0) continue;
     payoutItems.push({
       id: `${batchId}-item-${index + 1}`,

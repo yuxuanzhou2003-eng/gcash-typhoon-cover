@@ -1,0 +1,1588 @@
+{
+ "generatedAt": "2026-10-21T16:01:26Z",
+ "asOf": "2026-10-21T09:42:31Z",
+ "fixedPurePremium": 1200,
+ "perEventCap": 50000,
+ "aggregation": "at most one payout per year",
+ "ruleVersion": "climada-trigger-plan-a-v2",
+ "tiers": [
+  {
+   "thresholdMps": 32.7778,
+   "benefitDays": 14,
+   "anchor": "PAGASA TCWS Signal 4 lower bound"
+  },
+  {
+   "thresholdMps": 34.1072,
+   "benefitDays": 15,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 35.4365,
+   "benefitDays": 16,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 36.7659,
+   "benefitDays": 17,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 38.0953,
+   "benefitDays": 18,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 39.4246,
+   "benefitDays": 19,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 40.754,
+   "benefitDays": 20,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 42.0833,
+   "benefitDays": 21,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 43.4127,
+   "benefitDays": 22,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 44.7421,
+   "benefitDays": 23,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 46.0714,
+   "benefitDays": 24,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 47.4008,
+   "benefitDays": 25,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 48.7302,
+   "benefitDays": 26,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 50.0595,
+   "benefitDays": 27,
+   "anchor": "linear between the Signal 4 and Signal 5 lower bounds"
+  },
+  {
+   "thresholdMps": 51.3889,
+   "benefitDays": 28,
+   "anchor": "PAGASA TCWS Signal 5 lower bound"
+  }
+ ],
+ "engine": {
+  "name": "CLIMADA 6.1.0 TropCyclone.from_tracks (H08)",
+  "max_dist_eye_km": 2000.0,
+  "intensity_threshold_mps": 10.0,
+  "wind_index": "highest wind at the location or 8 points 15 km away"
+ },
+ "windIndex": "highest wind at the location or 8 points 15 km away",
+ "tracks": {
+  "source": "IBTrACS v04r01, provider usa, basin WP",
+  "seasons": [
+   2001,
+   2024
+  ],
+  "n_events": 413,
+  "retrieved_at": "2026-10-21T09:42:31Z"
+ },
+ "portfolio": {
+  "data_version": "synthetic-gcash-merchants-v1",
+  "n_merchants": 28,
+  "note": "real city coordinates; merchant names and daily collections are synthetic"
+ },
+ "comparison": {
+  "original": {
+   "label": "Original design",
+   "tiers": "Signal 2 / 3 / 4 \u2192 14 / 28 / 42 days",
+   "medianPer20k": 7623.333333333333,
+   "withinKillLine": 3,
+   "n": 28
+  },
+  "planA": {
+   "label": "Plan A",
+   "tiers": "15 km max wind; 50% at Signal 4 rising to 100% at Signal 5",
+   "medianCover": 13308.5,
+   "withinKillLine": 28,
+   "n": 28
+  }
+ },
+ "runs": [
+  {
+   "conversionFactor": 0.88,
+   "conversionSource": "CLIMADA tc_tracks.STORM_1MIN_WIND_FACTOR (Bloemendaal et al. 2020); adopted for prototype pricing only, pending product sign-off",
+   "modelRunId": "model-run-82ec51a03d270a7f",
+   "inputHash": "sha256:82ec51a03d270a7f92dd8b01f88f9ea5e5352f4dd36c270d6aceeb457a5cb805",
+   "outputHash": "sha256:ed14c4fdf05c555655fe9115158a5f860e666baaaf0c7d754a33f5a91e1f3ea9",
+   "validationStatus": "warn",
+   "portfolioCover": 472593.0,
+   "portfolioPurePremium": 28137.880303762326,
+   "locations": [
+    {
+     "id": "L-tacloban",
+     "city": "Tacloban",
+     "region": "Eastern Visayas",
+     "dailyCollections": 1800,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.08743093422491068,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.16757262748026464,
+      "level": 0.9
+     },
+     "cover": 13725.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 7.6,
+     "purePremium": 1199.99
+    },
+    {
+     "id": "L-guiuan",
+     "city": "Guiuan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 700,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.07915682015311612,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.15278337563238867,
+      "level": 0.9
+     },
+     "cover": 15159.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 21.7,
+     "purePremium": 1199.9
+    },
+    {
+     "id": "L-borongan",
+     "city": "Borongan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 650,
+     "triggerProbability": 0.2529824996895675,
+     "rate": 0.1638814858118324,
+     "rateCi": {
+      "lower": 0.08831707108050241,
+      "upper": 0.22838247386108818,
+      "level": 0.9
+     },
+     "cover": 7322.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 11.3,
+     "purePremium": 1200.0
+    },
+    {
+     "id": "L-catarman",
+     "city": "Catarman",
+     "region": "Eastern Visayas",
+     "dailyCollections": 600,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.19718600029666786,
+     "rateCi": {
+      "lower": 0.10313900455887405,
+      "upper": 0.2920599362804321,
+      "level": 0.9
+     },
+     "cover": 6085.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 10.1,
+     "purePremium": 1199.91
+    },
+    {
+     "id": "L-catbalogan",
+     "city": "Catbalogan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 750,
+     "triggerProbability": 0.2529824996895675,
+     "rate": 0.1543048082867451,
+     "rateCi": {
+      "lower": 0.07642986943641594,
+      "upper": 0.22288332283466317,
+      "level": 0.9
+     },
+     "cover": 7776.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 10.4,
+     "purePremium": 1199.86
+    },
+    {
+     "id": "L-ormoc",
+     "city": "Ormoc",
+     "region": "Eastern Visayas",
+     "dailyCollections": 1100,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.08463485976206557,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.1734334680982184,
+      "level": 0.9
+     },
+     "cover": 14178.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 12.9,
+     "purePremium": 1199.97
+    },
+    {
+     "id": "L-legazpi",
+     "city": "Legazpi",
+     "region": "Bicol",
+     "dailyCollections": 1500,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.2373579118005817,
+     "rateCi": {
+      "lower": 0.11469120164155523,
+      "upper": 0.36511326337743216,
+      "level": 0.9
+     },
+     "cover": 5055.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 3.4,
+     "purePremium": 1199.75
+    },
+    {
+     "id": "L-virac",
+     "city": "Virac",
+     "region": "Bicol",
+     "dailyCollections": 550,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.2561536766315094,
+     "rateCi": {
+      "lower": 0.137654588462871,
+      "upper": 0.3633899774344813,
+      "level": 0.9
+     },
+     "cover": 4684.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.5,
+     "purePremium": 1199.82
+    },
+    {
+     "id": "L-naga",
+     "city": "Naga",
+     "region": "Bicol",
+     "dailyCollections": 1300,
+     "triggerProbability": 0.2529824996895675,
+     "rate": 0.22989173422151582,
+     "rateCi": {
+      "lower": 0.1076597227068822,
+      "upper": 0.3609127592377413,
+      "level": 0.9
+     },
+     "cover": 5219.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 4.0,
+     "purePremium": 1199.83
+    },
+    {
+     "id": "L-daet",
+     "city": "Daet",
+     "region": "Bicol",
+     "dailyCollections": 800,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.08008385512252174,
+     "rateCi": {
+      "lower": 0.022154294712177135,
+      "upper": 0.14355939808395862,
+      "level": 0.9
+     },
+     "cover": 14984.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 18.7,
+     "purePremium": 1199.97
+    },
+    {
+     "id": "L-surigao",
+     "city": "Surigao",
+     "region": "Caraga",
+     "dailyCollections": 900,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.03498046533503999,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.10071694064177536,
+      "level": 0.9
+     },
+     "cover": 25200.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 881.51
+    },
+    {
+     "id": "L-butuan",
+     "city": "Butuan",
+     "region": "Caraga",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 28000.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-davao",
+     "city": "Davao City",
+     "region": "Davao",
+     "dailyCollections": 2500,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 50000.0,
+     "coverLimitedBy": "per_event_cap",
+     "coverDays": 20.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-cagayan-de-oro",
+     "city": "Cagayan de Oro",
+     "region": "Northern Mindanao",
+     "dailyCollections": 2000,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.03935302350190684,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.11330655822199727,
+      "level": 0.9
+     },
+     "cover": 30493.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 15.2,
+     "purePremium": 1199.99
+    },
+    {
+     "id": "L-zamboanga",
+     "city": "Zamboanga",
+     "region": "Zamboanga Peninsula",
+     "dailyCollections": 1400,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 39200.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-cebu",
+     "city": "Cebu City",
+     "region": "Central Visayas",
+     "dailyCollections": 2400,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.03789550411293467,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.10911001902858998,
+      "level": 0.9
+     },
+     "cover": 31666.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 13.2,
+     "purePremium": 1199.99
+    },
+    {
+     "id": "L-dumaguete",
+     "city": "Dumaguete",
+     "region": "Central Visayas",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.03643798472397564,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.10491347983518268,
+      "level": 0.9
+     },
+     "cover": 28000.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 1020.26
+    },
+    {
+     "id": "L-iloilo",
+     "city": "Iloilo City",
+     "region": "Western Visayas",
+     "dailyCollections": 1900,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.03498046533503999,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.10071694064177536,
+      "level": 0.9
+     },
+     "cover": 34304.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 18.1,
+     "purePremium": 1199.95
+    },
+    {
+     "id": "L-roxas",
+     "city": "Roxas",
+     "region": "Western Visayas",
+     "dailyCollections": 900,
+     "triggerProbability": 0.15351827510938593,
+     "rate": 0.11376969180204768,
+     "rateCi": {
+      "lower": 0.04833475696175992,
+      "upper": 0.1946924847661512,
+      "level": 0.9
+     },
+     "cover": 10547.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 11.7,
+     "purePremium": 1199.98
+    },
+    {
+     "id": "L-puerto-princesa",
+     "city": "Puerto Princesa",
+     "region": "MIMAROPA",
+     "dailyCollections": 1100,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 30800.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-coron",
+     "city": "Coron",
+     "region": "MIMAROPA",
+     "dailyCollections": 600,
+     "triggerProbability": 0.07995558537067675,
+     "rate": 0.06178110136217768,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.1367969426086046,
+      "level": 0.9
+     },
+     "cover": 16800.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 1037.92
+    },
+    {
+     "id": "L-manila",
+     "city": "Manila",
+     "region": "NCR",
+     "dailyCollections": 2500,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.09308013780899693,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.1833446407814702,
+      "level": 0.9
+     },
+     "cover": 12892.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 5.2,
+     "purePremium": 1199.98
+    },
+    {
+     "id": "L-batangas",
+     "city": "Batangas City",
+     "region": "CALABARZON",
+     "dailyCollections": 1300,
+     "triggerProbability": 0.18806365384936502,
+     "rate": 0.1372428226782099,
+     "rateCi": {
+      "lower": 0.06135280917498936,
+      "upper": 0.22287987773433238,
+      "level": 0.9
+     },
+     "cover": 8743.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 6.7,
+     "purePremium": 1199.94
+    },
+    {
+     "id": "L-baler",
+     "city": "Baler",
+     "region": "Central Luzon",
+     "dailyCollections": 500,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.21303091065127253,
+     "rateCi": {
+      "lower": 0.1145898008844737,
+      "upper": 0.29140842895668173,
+      "level": 0.9
+     },
+     "cover": 5632.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 11.3,
+     "purePremium": 1199.73
+    },
+    {
+     "id": "L-baguio",
+     "city": "Baguio",
+     "region": "CAR",
+     "dailyCollections": 1500,
+     "triggerProbability": 0.39346934028736663,
+     "rate": 0.26304475460018306,
+     "rateCi": {
+      "lower": 0.16903663694939294,
+      "upper": 0.35120076952325013,
+      "level": 0.9
+     },
+     "cover": 4561.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 3.0,
+     "purePremium": 1199.75
+    },
+    {
+     "id": "L-tuguegarao",
+     "city": "Tuguegarao",
+     "region": "Cagayan Valley",
+     "dailyCollections": 1200,
+     "triggerProbability": 0.18806365384936502,
+     "rate": 0.13198378300118238,
+     "rateCi": {
+      "lower": 0.057468025352875804,
+      "upper": 0.20150958925155343,
+      "level": 0.9
+     },
+     "cover": 9092.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 7.6,
+     "purePremium": 1200.03
+    },
+    {
+     "id": "L-aparri",
+     "city": "Aparri",
+     "region": "Cagayan Valley",
+     "dailyCollections": 500,
+     "triggerProbability": 0.39346934028736663,
+     "rate": 0.28466193988680644,
+     "rateCi": {
+      "lower": 0.1920838553721535,
+      "upper": 0.36965856162384875,
+      "level": 0.9
+     },
+     "cover": 4215.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.4,
+     "purePremium": 1199.82
+    },
+    {
+     "id": "L-laoag",
+     "city": "Laoag",
+     "region": "Ilocos",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.2211992169285951,
+     "rate": 0.14525325212608226,
+     "rateCi": {
+      "lower": 0.06592018133745249,
+      "upper": 0.21370584924223934,
+      "level": 0.9
+     },
+     "cover": 8261.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.3,
+     "purePremium": 1200.01
+    }
+   ]
+  },
+  {
+   "conversionFactor": 0.93,
+   "conversionSource": "WMO at-sea 1-min to 10-min gust-factor guidance (Harper et al. 2010); sensitivity case only",
+   "modelRunId": "model-run-a8eab5c85611bb9a",
+   "inputHash": "sha256:a8eab5c85611bb9a2da97a9484519f2a7216ac5cc65c1aa8c76bd635bc497c13",
+   "outputHash": "sha256:7e83c5b9eee8984dc813f866b7cce1cbdbda335db2546ea6bf9b55abe12b7a9e",
+   "validationStatus": "warn",
+   "portfolioCover": 444361.0,
+   "portfolioPurePremium": 28316.194152261356,
+   "locations": [
+    {
+     "id": "L-tacloban",
+     "city": "Tacloban",
+     "region": "Eastern Visayas",
+     "dailyCollections": 1800,
+     "triggerProbability": 0.15351827510938593,
+     "rate": 0.11091656268080653,
+     "rateCi": {
+      "lower": 0.026235349001279988,
+      "upper": 0.19441257212716348,
+      "level": 0.9
+     },
+     "cover": 10818.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 6.0,
+     "purePremium": 1199.87
+    },
+    {
+     "id": "L-guiuan",
+     "city": "Guiuan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 700,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.08329387718898518,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.15832325925023893,
+      "level": 0.9
+     },
+     "cover": 14406.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 20.6,
+     "purePremium": 1199.95
+    },
+    {
+     "id": "L-borongan",
+     "city": "Borongan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 650,
+     "triggerProbability": 0.2529824996895675,
+     "rate": 0.17829652724698392,
+     "rateCi": {
+      "lower": 0.09535775100923469,
+      "upper": 0.24755521243444537,
+      "level": 0.9
+     },
+     "cover": 6730.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 10.4,
+     "purePremium": 1199.92
+    },
+    {
+     "id": "L-catarman",
+     "city": "Catarman",
+     "region": "Eastern Visayas",
+     "dailyCollections": 600,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.21516155836940346,
+     "rateCi": {
+      "lower": 0.11281833929190328,
+      "upper": 0.31797344535582844,
+      "level": 0.9
+     },
+     "cover": 5577.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 9.3,
+     "purePremium": 1200.0
+    },
+    {
+     "id": "L-catbalogan",
+     "city": "Catbalogan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 750,
+     "triggerProbability": 0.2529824996895675,
+     "rate": 0.16619545418175144,
+     "rateCi": {
+      "lower": 0.08186024859023319,
+      "upper": 0.24176985939355386,
+      "level": 0.9
+     },
+     "cover": 7220.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 9.6,
+     "purePremium": 1199.94
+    },
+    {
+     "id": "L-ormoc",
+     "city": "Ormoc",
+     "region": "Eastern Visayas",
+     "dailyCollections": 1100,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.08877191679793724,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.17602710325773077,
+      "level": 0.9
+     },
+     "cover": 13517.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 12.3,
+     "purePremium": 1199.96
+    },
+    {
+     "id": "L-legazpi",
+     "city": "Legazpi",
+     "region": "Bicol",
+     "dailyCollections": 1500,
+     "triggerProbability": 0.3127107212090278,
+     "rate": 0.264151259052399,
+     "rateCi": {
+      "lower": 0.1333863696518361,
+      "upper": 0.41255579357382755,
+      "level": 0.9
+     },
+     "cover": 4542.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 3.0,
+     "purePremium": 1199.72
+    },
+    {
+     "id": "L-virac",
+     "city": "Virac",
+     "region": "Bicol",
+     "dailyCollections": 550,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.2643470565921196,
+     "rateCi": {
+      "lower": 0.1430488700244949,
+      "upper": 0.37545760114219373,
+      "level": 0.9
+     },
+     "cover": 4539.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.3,
+     "purePremium": 1199.87
+    },
+    {
+     "id": "L-naga",
+     "city": "Naga",
+     "region": "Bicol",
+     "dailyCollections": 1300,
+     "triggerProbability": 0.2529824996895675,
+     "rate": 0.23576255816510303,
+     "rateCi": {
+      "lower": 0.11185955967701397,
+      "upper": 0.3688823300273828,
+      "level": 0.9
+     },
+     "cover": 5089.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 3.9,
+     "purePremium": 1199.8
+    },
+    {
+     "id": "L-daet",
+     "city": "Daet",
+     "region": "Bicol",
+     "dailyCollections": 800,
+     "triggerProbability": 0.2211992169285951,
+     "rate": 0.13892695603449856,
+     "rateCi": {
+      "lower": 0.05426148269712809,
+      "upper": 0.20571747138828106,
+      "level": 0.9
+     },
+     "cover": 8637.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 10.8,
+     "purePremium": 1199.83
+    },
+    {
+     "id": "L-surigao",
+     "city": "Surigao",
+     "region": "Caraga",
+     "dailyCollections": 900,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.03789550411295999,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.10911001902858998,
+      "level": 0.9
+     },
+     "cover": 25200.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 954.97
+    },
+    {
+     "id": "L-butuan",
+     "city": "Butuan",
+     "region": "Caraga",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 28000.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-davao",
+     "city": "Davao City",
+     "region": "Davao",
+     "dailyCollections": 2500,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 50000.0,
+     "coverLimitedBy": "per_event_cap",
+     "coverDays": 20.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-cagayan-de-oro",
+     "city": "Cagayan de Oro",
+     "region": "Northern Mindanao",
+     "dailyCollections": 2000,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.04081054289086636,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.11750309741540459,
+      "level": 0.9
+     },
+     "cover": 29404.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 14.7,
+     "purePremium": 1199.99
+    },
+    {
+     "id": "L-zamboanga",
+     "city": "Zamboanga",
+     "region": "Zamboanga Peninsula",
+     "dailyCollections": 1400,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 39200.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-cebu",
+     "city": "Cebu City",
+     "region": "Central Visayas",
+     "dailyCollections": 2400,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.04081054289085272,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.11750309741540459,
+      "level": 0.9
+     },
+     "cover": 29404.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 12.3,
+     "purePremium": 1199.99
+    },
+    {
+     "id": "L-dumaguete",
+     "city": "Dumaguete",
+     "region": "Central Visayas",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.039353023501893694,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.11330655822199727,
+      "level": 0.9
+     },
+     "cover": 28000.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 1101.88
+    },
+    {
+     "id": "L-iloilo",
+     "city": "Iloilo City",
+     "region": "Western Visayas",
+     "dailyCollections": 1900,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.03789550411295999,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.10911001902858998,
+      "level": 0.9
+     },
+     "cover": 31666.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 16.7,
+     "purePremium": 1199.99
+    },
+    {
+     "id": "L-roxas",
+     "city": "Roxas",
+     "region": "Western Visayas",
+     "dailyCollections": 900,
+     "triggerProbability": 0.15351827510938593,
+     "rate": 0.12047926153034756,
+     "rateCi": {
+      "lower": 0.051260215443711836,
+      "upper": 0.2094063848801768,
+      "level": 0.9
+     },
+     "cover": 9960.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 11.1,
+     "purePremium": 1199.97
+    },
+    {
+     "id": "L-puerto-princesa",
+     "city": "Puerto Princesa",
+     "region": "MIMAROPA",
+     "dailyCollections": 1100,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 30800.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-coron",
+     "city": "Coron",
+     "region": "MIMAROPA",
+     "dailyCollections": 600,
+     "triggerProbability": 0.07995558537067675,
+     "rate": 0.06317913859359936,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.1380831989548179,
+      "level": 0.9
+     },
+     "cover": 16800.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 1061.41
+    },
+    {
+     "id": "L-manila",
+     "city": "Manila",
+     "region": "NCR",
+     "dailyCollections": 2500,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.0972171948448686,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.1883343299674412,
+      "level": 0.9
+     },
+     "cover": 12343.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 4.9,
+     "purePremium": 1199.96
+    },
+    {
+     "id": "L-batangas",
+     "city": "Batangas City",
+     "region": "CALABARZON",
+     "dailyCollections": 1300,
+     "triggerProbability": 0.2529824996895675,
+     "rate": 0.1830850131710941,
+     "rateCi": {
+      "lower": 0.08053130727145,
+      "upper": 0.28635659509459344,
+      "level": 0.9
+     },
+     "cover": 6554.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 5.0,
+     "purePremium": 1199.94
+    },
+    {
+     "id": "L-baler",
+     "city": "Baler",
+     "region": "Central Luzon",
+     "dailyCollections": 500,
+     "triggerProbability": 0.3127107212090278,
+     "rate": 0.24671627710600794,
+     "rateCi": {
+      "lower": 0.13028223816392792,
+      "upper": 0.3329780843359154,
+      "level": 0.9
+     },
+     "cover": 4863.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 9.7,
+     "purePremium": 1199.81
+    },
+    {
+     "id": "L-baguio",
+     "city": "Baguio",
+     "region": "CAR",
+     "dailyCollections": 1500,
+     "triggerProbability": 0.39346934028736663,
+     "rate": 0.28717667859160323,
+     "rateCi": {
+      "lower": 0.18561537949895468,
+      "upper": 0.38479563578113335,
+      "level": 0.9
+     },
+     "cover": 4178.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 2.8,
+     "purePremium": 1199.82
+    },
+    {
+     "id": "L-tuguegarao",
+     "city": "Tuguegarao",
+     "region": "Cagayan Valley",
+     "dailyCollections": 1200,
+     "triggerProbability": 0.34075936979955623,
+     "rate": 0.22156326944434204,
+     "rateCi": {
+      "lower": 0.11369094611205473,
+      "upper": 0.3172540035049628,
+      "level": 0.9
+     },
+     "cover": 5416.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 4.5,
+     "purePremium": 1199.92
+    },
+    {
+     "id": "L-aparri",
+     "city": "Aparri",
+     "region": "Cagayan Valley",
+     "dailyCollections": 500,
+     "triggerProbability": 0.39346934028736663,
+     "rate": 0.30985185398655674,
+     "rateCi": {
+      "lower": 0.2074095172242621,
+      "upper": 0.39722107602275253,
+      "level": 0.9
+     },
+     "cover": 3872.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 7.7,
+     "purePremium": 1199.76
+    },
+    {
+     "id": "L-laoag",
+     "city": "Laoag",
+     "region": "Ilocos",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.2211992169285951,
+     "rate": 0.15734976335265863,
+     "rateCi": {
+      "lower": 0.07011672053086158,
+      "upper": 0.230162677345823,
+      "level": 0.9
+     },
+     "cover": 7626.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 7.6,
+     "purePremium": 1199.91
+    }
+   ]
+  },
+  {
+   "conversionFactor": 1.0,
+   "conversionSource": "no conversion: treats CLIMADA 1-min wind as the rule metric; upper-bound sensitivity case only",
+   "modelRunId": "model-run-2f52ac9fbfb03be6",
+   "inputHash": "sha256:2f52ac9fbfb03be6ba234cf77eb0e30e6b400a68170cc3705f36e8c9a1bad445",
+   "outputHash": "sha256:c702abcf0d15c36205fceeb24fc5dbd86713454b28561365b55cc5d8f3f3bd7a",
+   "validationStatus": "warn",
+   "portfolioCover": 398725.0,
+   "portfolioPurePremium": 28501.637872560117,
+   "locations": [
+    {
+     "id": "L-tacloban",
+     "city": "Tacloban",
+     "region": "Eastern Visayas",
+     "dailyCollections": 1800,
+     "triggerProbability": 0.2211992169285951,
+     "rate": 0.15404134941817804,
+     "rateCi": {
+      "lower": 0.07305917361043533,
+      "upper": 0.2318707751377219,
+      "level": 0.9
+     },
+     "cover": 7790.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 4.3,
+     "purePremium": 1199.96
+    },
+    {
+     "id": "L-guiuan",
+     "city": "Guiuan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 700,
+     "triggerProbability": 0.18806365384936502,
+     "rate": 0.12405219501485348,
+     "rateCi": {
+      "lower": 0.04573499427171781,
+      "upper": 0.19579435321010802,
+      "level": 0.9
+     },
+     "cover": 9673.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 13.8,
+     "purePremium": 1199.91
+    },
+    {
+     "id": "L-borongan",
+     "city": "Borongan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 650,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.21306732005352283,
+     "rateCi": {
+      "lower": 0.13650791429148681,
+      "upper": 0.2869876755810303,
+      "level": 0.9
+     },
+     "cover": 5632.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.7,
+     "purePremium": 1200.01
+    },
+    {
+     "id": "L-catarman",
+     "city": "Catarman",
+     "region": "Eastern Visayas",
+     "dailyCollections": 600,
+     "triggerProbability": 0.3127107212090278,
+     "rate": 0.24991380097532526,
+     "rateCi": {
+      "lower": 0.13741161041980196,
+      "upper": 0.3606958095233194,
+      "level": 0.9
+     },
+     "cover": 4801.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.0,
+     "purePremium": 1199.85
+    },
+    {
+     "id": "L-catbalogan",
+     "city": "Catbalogan",
+     "region": "Eastern Visayas",
+     "dailyCollections": 750,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.20359348590752013,
+     "rateCi": {
+      "lower": 0.11575600177052385,
+      "upper": 0.28197568383170446,
+      "level": 0.9
+     },
+     "cover": 5894.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 7.9,
+     "purePremium": 1200.05
+    },
+    {
+     "id": "L-ormoc",
+     "city": "Ormoc",
+     "region": "Eastern Visayas",
+     "dailyCollections": 1100,
+     "triggerProbability": 0.15351827510938593,
+     "rate": 0.11354380160004719,
+     "rateCi": {
+      "lower": 0.02915038777919999,
+      "upper": 0.1999939447205669,
+      "level": 0.9
+     },
+     "cover": 10568.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 9.6,
+     "purePremium": 1199.93
+    },
+    {
+     "id": "L-legazpi",
+     "city": "Legazpi",
+     "region": "Bicol",
+     "dailyCollections": 1500,
+     "triggerProbability": 0.3127107212090278,
+     "rate": 0.2757115533079903,
+     "rateCi": {
+      "lower": 0.1367307583321581,
+      "upper": 0.42699951433935335,
+      "level": 0.9
+     },
+     "cover": 4352.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 2.9,
+     "purePremium": 1199.92
+    },
+    {
+     "id": "L-virac",
+     "city": "Virac",
+     "region": "Bicol",
+     "dailyCollections": 550,
+     "triggerProbability": 0.34075936979955623,
+     "rate": 0.3043090737135936,
+     "rateCi": {
+      "lower": 0.1496595060707594,
+      "upper": 0.43509179488072486,
+      "level": 0.9
+     },
+     "cover": 3943.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 7.2,
+     "purePremium": 1199.91
+    },
+    {
+     "id": "L-naga",
+     "city": "Naga",
+     "region": "Bicol",
+     "dailyCollections": 1300,
+     "triggerProbability": 0.3127107212090278,
+     "rate": 0.2713525218325959,
+     "rateCi": {
+      "lower": 0.12301080756337561,
+      "upper": 0.4058208101601355,
+      "level": 0.9
+     },
+     "cover": 4422.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 3.4,
+     "purePremium": 1199.93
+    },
+    {
+     "id": "L-daet",
+     "city": "Daet",
+     "region": "Bicol",
+     "dailyCollections": 800,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.18721137785539602,
+     "rateCi": {
+      "lower": 0.07861344722452883,
+      "upper": 0.27099036017790323,
+      "level": 0.9
+     },
+     "cover": 6409.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.0,
+     "purePremium": 1199.79
+    },
+    {
+     "id": "L-surigao",
+     "city": "Surigao",
+     "region": "Caraga",
+     "dailyCollections": 900,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.04081054289087998,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.11750309741540459,
+      "level": 0.9
+     },
+     "cover": 25200.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 1028.43
+    },
+    {
+     "id": "L-butuan",
+     "city": "Butuan",
+     "region": "Caraga",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 28000.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-davao",
+     "city": "Davao City",
+     "region": "Davao",
+     "dailyCollections": 2500,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 50000.0,
+     "coverLimitedBy": "per_event_cap",
+     "coverDays": 20.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-cagayan-de-oro",
+     "city": "Cagayan de Oro",
+     "region": "Northern Mindanao",
+     "dailyCollections": 2000,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.04081054289086636,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.11750309741540459,
+      "level": 0.9
+     },
+     "cover": 29404.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 14.7,
+     "purePremium": 1199.99
+    },
+    {
+     "id": "L-zamboanga",
+     "city": "Zamboanga",
+     "region": "Zamboanga Peninsula",
+     "dailyCollections": 1400,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 39200.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-cebu",
+     "city": "Cebu City",
+     "region": "Central Visayas",
+     "dailyCollections": 2400,
+     "triggerProbability": 0.07995558537067675,
+     "rate": 0.06038306413075601,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.13551068626239124,
+      "level": 0.9
+     },
+     "cover": 19873.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.3,
+     "purePremium": 1200.01
+    },
+    {
+     "id": "L-dumaguete",
+     "city": "Dumaguete",
+     "region": "Central Visayas",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.040810542890861806,
+     "rate": 0.04081054289085272,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.11750309741540459,
+      "level": 0.9
+     },
+     "cover": 28000.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 1142.7
+    },
+    {
+     "id": "L-iloilo",
+     "city": "Iloilo City",
+     "region": "Western Visayas",
+     "dailyCollections": 1900,
+     "triggerProbability": 0.07995558537067675,
+     "rate": 0.060383064130795805,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.1362640220067642,
+      "level": 0.9
+     },
+     "cover": 19873.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 10.5,
+     "purePremium": 1200.01
+    },
+    {
+     "id": "L-roxas",
+     "city": "Roxas",
+     "region": "Western Visayas",
+     "dailyCollections": 900,
+     "triggerProbability": 0.15351827510938593,
+     "rate": 0.12987079640470053,
+     "rateCi": {
+      "lower": 0.059756983443283056,
+      "upper": 0.22910685917708024,
+      "level": 0.9
+     },
+     "cover": 9239.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 10.3,
+     "purePremium": 1199.85
+    },
+    {
+     "id": "L-puerto-princesa",
+     "city": "Puerto Princesa",
+     "region": "MIMAROPA",
+     "dailyCollections": 1100,
+     "triggerProbability": 0.0,
+     "rate": 0.0,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "level": 0.9
+     },
+     "cover": 30800.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 0.0
+    },
+    {
+     "id": "L-coron",
+     "city": "Coron",
+     "region": "MIMAROPA",
+     "dailyCollections": 600,
+     "triggerProbability": 0.07995558537067675,
+     "rate": 0.06737325028786435,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.1419419679934579,
+      "level": 0.9
+     },
+     "cover": 16800.0,
+     "coverLimitedBy": "28_days_of_collections",
+     "coverDays": 28.0,
+     "purePremium": 1131.87
+    },
+    {
+     "id": "L-manila",
+     "city": "Manila",
+     "region": "NCR",
+     "dailyCollections": 2500,
+     "triggerProbability": 0.11750309741540459,
+     "rate": 0.10409327168518936,
+     "rateCi": {
+      "lower": 0.0,
+      "upper": 0.19702745199316898,
+      "level": 0.9
+     },
+     "cover": 11528.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 4.6,
+     "purePremium": 1199.99
+    },
+    {
+     "id": "L-batangas",
+     "city": "Batangas City",
+     "region": "CALABARZON",
+     "dailyCollections": 1300,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.21597007753276679,
+     "rateCi": {
+      "lower": 0.09783730752052233,
+      "upper": 0.34391811934043837,
+      "level": 0.9
+     },
+     "cover": 5556.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 4.3,
+     "purePremium": 1199.91
+    },
+    {
+     "id": "L-baler",
+     "city": "Baler",
+     "region": "Central Luzon",
+     "dailyCollections": 500,
+     "triggerProbability": 0.34075936979955623,
+     "rate": 0.2881214969004123,
+     "rateCi": {
+      "lower": 0.16166009323458816,
+      "upper": 0.38474198751950955,
+      "level": 0.9
+     },
+     "cover": 4164.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 8.3,
+     "purePremium": 1199.74
+    },
+    {
+     "id": "L-baguio",
+     "city": "Baguio",
+     "region": "CAR",
+     "dailyCollections": 1500,
+     "triggerProbability": 0.39346934028736663,
+     "rate": 0.32134970067113,
+     "rateCi": {
+      "lower": 0.206805333145195,
+      "upper": 0.4320152858538488,
+      "level": 0.9
+     },
+     "cover": 3734.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 2.5,
+     "purePremium": 1199.95
+    },
+    {
+     "id": "L-tuguegarao",
+     "city": "Tuguegarao",
+     "region": "Cagayan Valley",
+     "dailyCollections": 1200,
+     "triggerProbability": 0.36766333781375027,
+     "rate": 0.2552641709685955,
+     "rateCi": {
+      "lower": 0.14222118100129547,
+      "upper": 0.3571097480911631,
+      "level": 0.9
+     },
+     "cover": 4701.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 3.9,
+     "purePremium": 1199.95
+    },
+    {
+     "id": "L-aparri",
+     "city": "Aparri",
+     "region": "Cagayan Valley",
+     "dailyCollections": 500,
+     "triggerProbability": 0.4419648542299528,
+     "rate": 0.3563862315481581,
+     "rateCi": {
+      "lower": 0.26369649350357066,
+      "upper": 0.4435592312208445,
+      "level": 0.9
+     },
+     "cover": 3367.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 6.7,
+     "purePremium": 1200.03
+    },
+    {
+     "id": "L-laoag",
+     "city": "Laoag",
+     "region": "Ilocos",
+     "dailyCollections": 1000,
+     "triggerProbability": 0.28346868942621073,
+     "rate": 0.2068175981406973,
+     "rateCi": {
+      "lower": 0.11629871235712246,
+      "upper": 0.28154266952004203,
+      "level": 0.9
+     },
+     "cover": 5802.0,
+     "coverLimitedBy": "risk",
+     "coverDays": 5.8,
+     "purePremium": 1199.94
+    }
+   ]
+  }
+ ]
+}

@@ -29,6 +29,7 @@ test('empty start, connected replay, approval, timeout reconciliation and persis
   await expect(page.getByRole('button', { name: 'Create payout draft', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Create payout draft', exact: true }).click();
   await page.getByRole('link', { name: /Actions & payouts/ }).click();
+  await expect(page.getByText('₱43,129.14 across 2 merchants')).toBeVisible();
   await page.getByRole('button', { name: 'Submit for approval', exact: true }).click();
   await expect(page.getByText('0 open', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Approve batch', exact: true })).toBeDisabled();
@@ -43,10 +44,11 @@ test('empty start, connected replay, approval, timeout reconciliation and persis
   await expect(page.getByText('All simulated payments reconciled')).toBeVisible();
   await page.screenshot({ path: 'test-results/payouts-desktop.png', fullPage: true });
   await page.getByRole('link', { name: 'Pricing lab', exact: true }).click();
-  await expect(page.getByLabel('Coverage days')).toHaveValue('');
-  await page.getByLabel('Coverage days').fill('90');
-  await page.getByRole('button', { name: 'Calculate scenario', exact: true }).click();
-  await expect(page.getByText('90-day scenario', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Every merchant pays ₱1,200 a year' })).toBeVisible();
+  await expect(page.getByRole('row', { name: /Virac/ })).toContainText('₱4,684');
+  await page.getByRole('button', { name: '1.00', exact: true }).click();
+  await expect(page.getByRole('button', { name: '1.00', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.screenshot({ path: 'test-results/pricing-desktop.png', fullPage: true });
   await page.getByRole('link', { name: 'Overview', exact: true }).click();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: 'test-results/overview-mobile.png', fullPage: true });

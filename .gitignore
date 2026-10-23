@@ -25,3 +25,16 @@ backend/data/
 
 # Local teammate submission extracts and rendered review artifacts.
 /_review/
+
+# Downloaded IBTrACS extracts for real CLIMADA runs.
+/modeling/real_run/
+
+# Cloudflare Wrangler build cache.
+/.wrangler/
+
+# Superseded pricing/plan candidates; plan_a.json is the current one.
+/modeling/config/candidates/baseline.json
+/modeling/config/candidates/alt_higher_thresholds.json
+/modeling/config/candidates/alt_lower_thresholds.json
+/modeling/config/candidates/alt_short_benefit.json
+/modeling/config/candidates/plan_a_v1.json

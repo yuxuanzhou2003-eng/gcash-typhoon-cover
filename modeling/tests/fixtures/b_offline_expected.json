@@ -1,7 +1,7 @@
 {
  "_label": "Expected output of the REAL CLIMADA engine on b_offline_track_fixture.json (synthetic track).",
  "climada_version": "6.1.0",
- "module_version": "0.3.0",
+ "module_version": "0.4.0",
  "config": {
   "wind_model": "H08",
   "intensity_threshold_mps": 17.5,
@@ -21,7 +21,7 @@
   },
   "FX-FAR": {
    "wind_speed_mps": null,
-   "data_status": "outside_storm_reach"
+   "data_status": "outside_model_radius"
   }
  }
 }

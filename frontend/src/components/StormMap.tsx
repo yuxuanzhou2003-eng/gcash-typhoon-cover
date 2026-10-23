@@ -162,7 +162,7 @@ export default function StormMap({ merchants, bulletin, items, selectedId, onSel
     </div>
     {selected && <aside className="map-detail" aria-label="Selected merchant">
       <div className="map-detail__heading"><div><strong>{selected.name}</strong><span>{selected.region}</span></div><button aria-label="Close merchant details" onClick={() => onSelect('')}><X size={16} /></button></div>
-      <dl><div><dt>Local wind</dt><dd>{selectedRisk?.wind != null ? `${selectedRisk.wind.toFixed(1)} m/s` : 'Not available'}</dd></div><div><dt>Scenario payout</dt><dd>{selectedRisk ? money(selectedRisk.payout) : 'Not analysed'}</dd></div><div><dt>Trigger status</dt><dd>{labelFor(selectedRisk)}</dd></div></dl>
+      <dl><div><dt>Local 10-min wind (demo estimate)</dt><dd>{selectedRisk?.wind != null ? `${selectedRisk.wind.toFixed(1)} m/s` : 'Not available'}</dd></div><div><dt>Scenario payout</dt><dd>{selectedRisk ? money(selectedRisk.payout) : 'Not analysed'}</dd></div><div><dt>Trigger status</dt><dd>{labelFor(selectedRisk)}</dd></div></dl>
     </aside>}
   </section>;
 }

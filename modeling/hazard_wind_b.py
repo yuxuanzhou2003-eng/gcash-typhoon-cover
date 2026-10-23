@@ -62,7 +62,7 @@ import numpy as np                           # vectorised arrays (CLIMADA also d
 # 1. Module identity and fixed vocabularies
 # ---------------------------------------------------------------------------------------
 MODULE_NAME = "climada_model.hazard_wind_b"  # name written into every output and manifest
-MODULE_VERSION = "0.3.0"                     # bump on ANY change that can alter outputs
+MODULE_VERSION = "0.4.0"                     # bump on ANY change that can alter outputs
 # 0.1.1  repeated location_id with the same coordinates shares one wind value (Part C request)
 # 0.2.0  IBTrACS season selection, spur removal, single agency, optional synthetic members,
 #        season_year / track_id / member_index / members_generated in events[] (Part D request)
@@ -128,6 +128,7 @@ ACCEPTED_WIND_UNITS = {"kn": KNOT_TO_MPS, "m/s": 1.0, "km/h": KMH_TO_MPS}
 
 # Wind-profile models that the current CLIMADA API documents for TropCyclone.from_tracks.
 CLIMADA_WIND_MODELS = ("H1980", "H08", "H10", "ER11")
+CENTROID_GRANULARITIES = ("exposure_points", "exposure_neighbourhood_max")
 
 
 # ---------------------------------------------------------------------------------------
@@ -204,6 +205,7 @@ PENDING_PARAMETERS: dict[str, dict[str, Any]] = {
     "centroid_granularity": {
         "status": PENDING,
         "current_value": "exposure_points",
+        "implemented_values": ["exposure_points", "exposure_neighbourhood_max"],
         "question": "Exact merchant points, a regular grid, or administrative areas?",
         "decision_owner": "Product owner + Part A (location precision) + Part C (rule geography)",
     },
@@ -352,7 +354,9 @@ class HazardConfig:
     max_dist_inland_km: float = 1000.0               # CLIMADA default for inland decay cut-off
     ignore_distance_to_coast: bool = True            # True keeps runs offline; see PENDING_PARAMETERS
     track_time_step_h: float = 1.0                   # interpolation step for tracks (CLIMADA default 1 h)
-    centroid_granularity: str = "exposure_points"    # only mode implemented; others are pending
+    centroid_granularity: str = "exposure_points"    # or "exposure_neighbourhood_max"; grids/areas are pending
+    neighbourhood_radius_km: float = 15.0            # exposure_neighbourhood_max: ring distance from each location
+    neighbourhood_bearings: int = 8                  # exposure_neighbourhood_max: ring points, evenly spaced
     # INPUT conversion to 1-minute, keyed by averaging minutes (as a string). Applied ONLY when
     # status == "approved". A pending entry is recorded but never applied; such events are rejected.
     input_wind_conversions: dict = field(default_factory=lambda: {
@@ -979,6 +983,41 @@ def _no_network():
         socket.socket.connect, socket.getaddrinfo = orig_connect, orig_lookup   # always restore
 
 
+def _engine_centroids(locations, config):
+    """Points the engine evaluates, and the index of the location each point belongs to.
+
+    exposure_neighbourhood_max adds `neighbourhood_bearings` points `neighbourhood_radius_km` from
+    each location; the location then reports the highest wind among itself and its ring.
+    """
+    if config.centroid_granularity == "exposure_points":
+        return locations, np.arange(len(locations))
+    points, owner = [], []
+    for j, loc in enumerate(locations):
+        points.append(loc)
+        owner.append(j)
+        lat1, lon1 = math.radians(loc["latitude"]), math.radians(loc["longitude"])
+        d = config.neighbourhood_radius_km / EARTH_RADIUS_KM
+        for k in range(config.neighbourhood_bearings):
+            bearing = 360.0 * k / config.neighbourhood_bearings
+            b = math.radians(bearing)
+            lat2 = math.asin(math.sin(lat1) * math.cos(d) + math.cos(lat1) * math.sin(d) * math.cos(b))
+            lon2 = lon1 + math.atan2(math.sin(b) * math.sin(d) * math.cos(lat1), math.cos(d) - math.sin(lat1) * math.sin(lat2))
+            points.append({"location_id": f"{loc['location_id']}@{config.neighbourhood_radius_km:g}km/{bearing:03.0f}",
+                           "latitude": math.degrees(lat2), "longitude": (math.degrees(lon2) + 540.0) % 360.0 - 180.0})
+            owner.append(j)
+    return points, np.array(owner)
+
+
+def _max_per_location(intensity, owner, n_locations):
+    """Collapse engine points to one wind per location (identity for exposure_points)."""
+    if intensity.shape[1] == n_locations:
+        return intensity
+    out = np.zeros((intensity.shape[0], n_locations))
+    for j in range(n_locations):
+        out[:, j] = intensity[:, owner == j].max(axis=1)
+    return out
+
+
 def _run_climada_engine(events, locations, config):
     """
     Real engine: ONE TropCyclone over ONE Centroids object -> shared wind field.
@@ -1134,8 +1173,11 @@ def compute_hazard_wind_field(
     # ---- 11.2 validation of inputs ------------------------------------------------------
     if config.wind_model not in CLIMADA_WIND_MODELS:                 # protect against typos in config
         raise ValueError(f"wind_model must be one of {CLIMADA_WIND_MODELS}")
-    if config.centroid_granularity != "exposure_points":             # other modes not implemented yet
-        raise NotImplementedError("only centroid_granularity='exposure_points' is implemented (others pending)")
+    if config.centroid_granularity not in CENTROID_GRANULARITIES:   # other modes not implemented yet
+        raise NotImplementedError(f"centroid_granularity must be one of {CENTROID_GRANULARITIES} (others pending)")
+    if config.centroid_granularity == "exposure_neighbourhood_max" and (
+            not config.neighbourhood_radius_km > 0 or config.neighbourhood_bearings < 1):
+        raise ValueError("exposure_neighbourhood_max needs neighbourhood_radius_km > 0 and neighbourhood_bearings >= 1")
     output_definition = _resolve_output_definition(config)
     out_conv = _output_conversion_metadata(config)
     out_conv_approved = out_conv["status"] == "approved"
@@ -1162,13 +1204,15 @@ def compute_hazard_wind_field(
     intensity, event_ids, meta = np.zeros((0, len(locations))), [], {}
     if locations and events:                                         # only run if there is something to compute
         try:
+            engine_locations, owner = _engine_centroids(locations, config)
             if config.engine == "climada":
                 with _no_network() as network_attempts:              # offline guarantee (handoff section 5)
-                    intensity, event_ids, warn_eng, meta = _run_climada_engine(events, locations, config)
+                    intensity, event_ids, warn_eng, meta = _run_climada_engine(events, engine_locations, config)
             elif config.engine == "fixture":
-                intensity, event_ids, warn_eng, meta = _run_fixture_engine(events, locations, config)
+                intensity, event_ids, warn_eng, meta = _run_fixture_engine(events, engine_locations, config)
             else:
                 raise ValueError(f"unknown engine {config.engine!r}")
+            intensity = _max_per_location(intensity, owner, len(locations))
             warnings += warn_eng
         except ImportError as exc:                                   # CLIMADA (or xarray) not installed
             engine_error = f"{REASON_ENGINE_UNAVAILABLE}: {exc}"
@@ -1257,11 +1301,11 @@ def compute_hazard_wind_field(
             return STATUS_NOT_COMPUTABLE, None, REASON_MISSING_HAZARD
         if v > 0:                                                    # a real modelled wind value
             return STATUS_OK, round(v, 6), None                      # 6 dp keeps hashes stable across platforms
-        if dist_km[e, j] > config.max_dist_eye_km:                   # beyond CLIMADA's computation radius
-            return STATUS_OUTSIDE_MODEL_RADIUS, None, REASON_COVERAGE_GAP
         circulation = circulation_radius_km.get(event_ids[e])
         if circulation is not None and dist_km[e, j] > circulation:
             return STATUS_OUTSIDE_CIRCULATION, None, None
+        if dist_km[e, j] > config.max_dist_eye_km:                   # inside circulation, beyond CLIMADA's radius
+            return STATUS_OUTSIDE_MODEL_RADIUS, None, REASON_COVERAGE_GAP
         return STATUS_BELOW_THRESHOLD, None, None                    # computed, but below reporting threshold
 
     event_location_winds = []                                        # full matrix for Parts C and D

@@ -1443,3 +1443,15 @@
     transition-duration: .001ms !important;
   }
 }
+
+/* Same width rule as .agent-fact in agents.css, for the workspace layout. */
+@container (max-width: 440px) {
+  .workspace-flow-fact > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .workspace-flow-fact span {
+    text-align: left;
+  }
+}
