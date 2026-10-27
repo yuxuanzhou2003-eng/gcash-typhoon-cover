@@ -2,9 +2,11 @@ import { z } from 'zod';
 import type { Action, Batch, Bulletin, ModelRun, Portfolio, Rule } from '../contracts';
 import type { AgentFact, AgentFinding, AgentHealth, AgentProposal, AgentRun, AgentSnapshot, AgentStep } from './contracts';
 
-// The deployed proxy (functions/api/agents) injects the backend API key server-side,
-// so the browser bundle never needs to carry the secret.
 const BASE = (import.meta.env.VITE_AGENT_API_BASE_URL || '/api/agents').replace(/\/+$/, '');
+// Deployed builds call the Function Compute proxy at VITE_AGENT_API_BASE_URL, which injects the
+// backend's shared key server-side; this header is unset there and only matters for setups that
+// call the backend directly (e.g. local dev against a backend with AGENT_API_KEY set).
+const API_KEY = import.meta.env.VITE_AGENT_API_KEY as string | undefined;
 
 const id = z.string().min(1);
 const stamp = z.iso.datetime();
@@ -221,7 +223,12 @@ async function request<T>(path: string, schema: z.ZodType<T>, init?: RequestInit
   try {
     response = await fetch(`${BASE}${path}`, {
       ...init,
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json', ...init?.headers },
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        ...(API_KEY ? { 'X-Api-Key': API_KEY } : {}),
+        ...init?.headers,
+      },
     });
   } catch {
     throw new AgentApiError('Agent service unavailable. Check the service and retry.', 'unavailable');

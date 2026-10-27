@@ -29,8 +29,12 @@ backend/data/
 # Downloaded IBTrACS extracts for real CLIMADA runs.
 /modeling/real_run/
 
-# Cloudflare Wrangler build cache.
+# Cloudflare Wrangler build cache (superseded by the Aliyun OSS deploy; left until fully removed).
 /.wrangler/
+frontend/.wrangler/
+
+# ACME account key, issued TLS cert and private key for the OSS/FC custom domains.
+frontend/.acme/
 
 # Superseded pricing/plan candidates; plan_a.json is the current one.
 /modeling/config/candidates/baseline.json
