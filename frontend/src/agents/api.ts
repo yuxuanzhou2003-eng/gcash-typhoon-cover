@@ -2,6 +2,8 @@ import { z } from 'zod';
 import type { Action, Batch, Bulletin, ModelRun, Portfolio, Rule } from '../contracts';
 import type { AgentFact, AgentFinding, AgentHealth, AgentProposal, AgentRun, AgentSnapshot, AgentStep } from './contracts';
 
+// The deployed proxy (functions/api/agents) injects the backend API key server-side,
+// so the browser bundle never needs to carry the secret.
 const BASE = (import.meta.env.VITE_AGENT_API_BASE_URL || '/api/agents').replace(/\/+$/, '');
 
 const id = z.string().min(1);

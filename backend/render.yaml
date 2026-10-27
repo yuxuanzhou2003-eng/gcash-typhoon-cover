@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: climada-agent-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: LLM_PROVIDER
+        value: openai
+      - key: OPENAI_SUMMARY_MODEL
+        value: gpt-4.1-mini
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: AGENT_API_KEY
+        sync: false
+      - key: AGENT_ALLOWED_ORIGINS
+        value: https://climada.ezethan.com

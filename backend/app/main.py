@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 from typing import Any
 
@@ -53,13 +54,32 @@ def create_app(db_path: str | None = None, provider: Any | None = None) -> FastA
     app = FastAPI(title="CLIMADA Agent API", version="0.1.0", lifespan=lifespan)
     app.state.agent_service = service
     app.state.agent_storage = storage
+    allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+    extra_origins = os.environ.get("AGENT_ALLOWED_ORIGINS", "")
+    allowed_origins += [origin.strip() for origin in extra_origins.split(",") if origin.strip()]
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+        allow_origins=allowed_origins,
         allow_credentials=False,
         allow_methods=["GET", "POST", "OPTIONS"],
-        allow_headers=["Content-Type"],
+        allow_headers=["Content-Type", "X-Api-Key"],
     )
+
+    # When AGENT_API_KEY is set (production), every /api/agents/* call except the
+    # health probe must present it. Unset locally so dev workflows stay frictionless.
+    api_key = os.environ.get("AGENT_API_KEY")
+
+    @app.middleware("http")
+    async def require_api_key(request: Request, call_next):
+        if (
+            api_key
+            and request.url.path.startswith("/api/agents/")
+            and request.url.path != "/api/agents/health"
+            and request.method != "OPTIONS"
+            and request.headers.get("x-api-key") != api_key
+        ):
+            return JSONResponse(status_code=401, content={"message": "Missing or invalid X-Api-Key."})
+        return await call_next(request)
 
     @app.exception_handler(RequestValidationError)
     async def request_validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:
